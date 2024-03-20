@@ -1,0 +1,46 @@
+
+:host {
+  height: 100%;
+  display: block;
+  mwlResizable {
+    box-sizing: border-box;
+  }
+
+  .rectangle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: bold;
+    background-color: red;
+    height: 100%;
+    width: 300px;
+
+  }
+  .resize-handle-top,
+  .resize-handle-bottom {
+    position: absolute;
+    height: 8px;
+    width: 8px;
+    background-color: white;
+    cursor: row-resize;
+  }
+  .resize-handle-right {
+    position: absolute;
+    height: 100%;
+    cursor: col-resize;
+    width: 5px;
+  }
+
+  .resize-handle-right {
+    right: 0;
+  }
+
+  .wrapper {
+    position: relative;
+    width: 500px;
+    border: 1px solid black;
+    height: 100%;
+  }
+}

@@ -1,1 +1,18 @@
-<p>side-bar works!</p>
+<div class="wrapper " #wrapperEl>
+  <div
+    class="rectangle bg-custom-yellow"
+    [ngStyle]="style"
+    mwlResizable
+    [validateResize]="validate"
+    [enableGhostResize]="true"
+    [resizeSnapGrid]="{ left: 1, right: 1 }"
+    (resizeEnd)="onResizeEnd($event)"
+  >
+    Angular Resizable Element
+    <div
+      class="resize-handle-right"
+      mwlResizeHandle
+      [resizeEdges]="{ right: true }"
+    ></div>
+  </div>
+</div>

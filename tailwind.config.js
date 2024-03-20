@@ -2,19 +2,19 @@
 module.exports = {
   content: ["./src/**/*.{html,js}"],
   theme: {
-    theme: {
+    extend: {
       colors: {
-        'blue': '#ff3242',
-        'purple': '#7e5bef',
-        'pink': '#ff49db',
-        'orange': '#ff7849',
-        'green': '#13ce66',
-        'yellow': '#ffc82c',
-        'gray-dark': '#273444',
-        'gray': '#8492a6',
-        'gray-light': '#d3dce6',
+        base: '#121212',
+        highlight: '#1a1a1a',
+        press: '#000',
+        elevatedBase: '#242424',
+        elevatedHighlight: '#2a2a2a',
+        elevatedPress: '#000',
+        tintedBase: 'hsla(0, 0%, 100%,.07)',
+        tintedHighlight: 'hsla(0, 0%, 100%,.1)',
+        tintedPress: 'hsla(0, 0%, 100%,.04)',
       }
-    }
+    },
   },
   plugins: [require('@tailwindcss/typography')],
 }
