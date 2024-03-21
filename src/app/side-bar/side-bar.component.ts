@@ -1,12 +1,13 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
 import { AngularSplitModule } from 'angular-split';
+import { ImageModule } from 'primeng/image';
 
 @Component({
   selector: 'app-side-bar',
   standalone: true,
-  imports: [CommonModule, ResizableModule, AngularSplitModule],
+  imports: [CommonModule, ResizableModule, AngularSplitModule, ImageModule, NgOptimizedImage],
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss']
 })

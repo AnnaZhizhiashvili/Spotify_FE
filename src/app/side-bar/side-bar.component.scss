@@ -2,18 +2,22 @@
 :host {
   height: 100%;
   display: block;
+  img {
+    width: 24px;
+  }
+  a:hover {
+    span {
+      color: #FFF;
+    }
+    img {
+      filter: brightness(195%) contrast(200%) saturate(103%)     }
+  }
   mwlResizable {
     box-sizing: border-box;
   }
 
   .rectangle {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 25px;
-    font-weight: bold;
-    background-color: red;
     height: 100%;
     width: 300px;
 

@@ -1,4 +1,4 @@
-<div class="wrapper " #wrapperEl>
+<div class="wrapper text-baseGray" #wrapperEl>
   <div
     class="rectangle bg-custom-yellow"
     [ngStyle]="style"
@@ -8,7 +8,25 @@
     [resizeSnapGrid]="{ left: 1, right: 1 }"
     (resizeEnd)="onResizeEnd($event)"
   >
-    Angular Resizable Element
+    <nav>
+      <div class="bg-base rounded-lg">
+        <ul class="font-bold">
+          <li>
+            <a href="#" class="flex items-center gap-5">
+              <img  class="transition-all duration-200" alt="home-icon" src="assets/icons8-home-gray.svg" height="48" width="48">
+              <span class="transition-all duration-200">Home</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-5">
+              <img class="transition-all duration-200" alt="home-icon" src="assets/icons8-search-gray.svg" height="48" width="48">
+              <span class="transition-all duration-200">Search</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
     <div
       class="resize-handle-right"
       mwlResizeHandle
