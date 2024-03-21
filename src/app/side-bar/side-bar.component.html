@@ -8,24 +8,40 @@
     [resizeSnapGrid]="{ left: 1, right: 1 }"
     (resizeEnd)="onResizeEnd($event)"
   >
-    <nav>
+    <nav class="flex flex-col gap-2">
       <div class="bg-base rounded-lg">
-        <ul class="font-bold">
-          <li>
+        <a class="" href="#"><img class="w-20 pl-3.5 mt-5" src="assets/Spotify_logo_text_white.svg" alt="Spotify-logo"></a>
+        <ul class="font-bold py-2 px-2.5">
+          <li class="py-3 pl-1">
             <a href="#" class="flex items-center gap-5">
-              <img  class="transition-all duration-200" alt="home-icon" src="assets/icons8-home-gray.svg" height="48" width="48">
+              <img  class="transition-all duration-200 w-6" alt="home-icon" src="assets/icons8-home-gray.svg">
               <span class="transition-all duration-200">Home</span>
             </a>
           </li>
-          <li>
+          <li class="py-3 pl-1">
             <a href="#" class="flex items-center gap-5">
-              <img class="transition-all duration-200" alt="home-icon" src="assets/icons8-search-gray.svg" height="48" width="48">
+              <img class="transition-all duration-200 w-6" alt="home-icon" src="assets/icons8-search-gray.svg">
               <span class="transition-all duration-200">Search</span>
             </a>
           </li>
         </ul>
       </div>
+      <div class="bg-base rounded-lg">
+        <header class="px-3.5 pt-2">
+          <div class="flex justify-between">
+            <a href="#" class="flex items-center gap-5 ">
+              <img  class="transition-all duration-200 w-6" alt="library-icon" src="assets/icons8-library-25.png">
+              <span class="transition-all duration-200">Your Library</span>
+            </a>
+            <a href="#" class="p-2 rounded-full hover:bg-highlight">
+              <img  class="transition-all duration-200" alt="plus-icon" src="assets/icons8-plus.svg" width="15">
+            </a>
+          </div>
+        </header>
+
+      </div>
     </nav>
+
 
     <div
       class="resize-handle-right"
