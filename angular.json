@@ -27,7 +27,15 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/assets/fonts/CircularSpotifyText-Black.otf",
+              "src/assets/fonts/CircularSpotifyText-BlackItalic.otf",
+              "src/assets/fonts/CircularSpotifyText-Bold.otf",
+              "src/assets/fonts/CircularSpotifyText-Book.otf",
+              "src/assets/fonts/CircularSpotifyText-BookItalic.otf",
+              "src/assets/fonts/CircularSpotifyText-Light.otf",
+              "src/assets/fonts/CircularSpotifyText-Medium.otf",
+              "src/assets/fonts/CircularSpotifyText-MediumItalic.otf"
             ],
             "styles": [
               "node_modules/primeng/resources/themes/lara-light-blue/theme.css",

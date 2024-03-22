@@ -3,11 +3,12 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
 import { AngularSplitModule } from 'angular-split';
 import { ImageModule } from 'primeng/image';
+import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-side-bar',
   standalone: true,
-  imports: [CommonModule, ResizableModule, AngularSplitModule, ImageModule, NgOptimizedImage],
+  imports: [CommonModule, ResizableModule, AngularSplitModule, ImageModule, NgOptimizedImage, ButtonComponent],
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss']
 })

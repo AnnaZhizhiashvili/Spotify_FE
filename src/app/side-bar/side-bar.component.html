@@ -8,17 +8,17 @@
     [resizeSnapGrid]="{ left: 1, right: 1 }"
     (resizeEnd)="onResizeEnd($event)"
   >
-    <nav class="flex flex-col gap-2">
+    <nav class="flex flex-col gap-2 mr-1">
       <div class="bg-base rounded-lg">
-        <a class="" href="#"><img class="w-20 pl-3.5 mt-5" src="assets/Spotify_logo_text_white.svg" alt="Spotify-logo"></a>
-        <ul class="font-bold py-2 px-2.5">
-          <li class="py-3 pl-1">
+        <a class="" href="#"><img class="w-20 pl-6 mt-5" src="assets/Spotify_logo_text_white.svg" alt="Spotify-logo"></a>
+        <ul class="font-bold py-2 px-6">
+          <li class="py-3">
             <a href="#" class="flex items-center gap-5">
               <img  class="transition-all duration-200 w-6" alt="home-icon" src="assets/icons8-home-gray.svg">
               <span class="transition-all duration-200">Home</span>
             </a>
           </li>
-          <li class="py-3 pl-1">
+          <li class="py-3">
             <a href="#" class="flex items-center gap-5">
               <img class="transition-all duration-200 w-6" alt="home-icon" src="assets/icons8-search-gray.svg">
               <span class="transition-all duration-200">Search</span>
@@ -27,7 +27,7 @@
         </ul>
       </div>
       <div class="bg-base rounded-lg">
-        <header class="px-3.5 pt-2">
+        <header class="px-6 pt-2">
           <div class="flex justify-between">
             <a href="#" class="flex items-center gap-5 ">
               <img  class="transition-all duration-200 w-6" alt="library-icon" src="assets/icons8-library-25.png">
@@ -38,15 +38,43 @@
             </a>
           </div>
         </header>
-
+        <div class=" px-2">
+          <section class="bg-elevatedBase my-2 py-4 px-5 flex flex-col items-start gap-5 rounded-lg">
+            <div class="flex flex-col gap-1 text-white">
+              <span>Create your first playlist</span>
+              <span class="text-sm">It's easy, we'll help you</span>
+            </div>
+            <div>
+              <app-button [text]="'Create playlist'"></app-button>
+            </div>
+          </section>
+          <section class="bg-elevatedBase my-2 py-4 px-5 flex flex-col items-start gap-5 rounded-lg">
+            <div class="flex flex-col gap-1 text-white">
+              <span>Let's find some podcasts to follow</span>
+              <span class="text-sm">We'll keep you updated on new episodes</span>
+            </div>
+            <div>
+              <app-button [text]="'Browse podcasts'"></app-button>
+            </div>
+          </section>
+          <div class="sidebar-footer px-5 my-7">
+            <div class="flex flex-wrap gap-2 text-xs">
+              <div><a href="https://www.spotify.com/it/legal/end-user-agreement/">Legal</a></div>
+              <div><a href="https://www.spotify.com/it/safetyandprivacy/reporting-content">Safety & Privacy Center</a></div>
+              <div><a href="https://www.spotify.com/it/legal/privacy-policy/">Privacy Policy</a></div>
+              <div><a href="https://www.spotify.com/it/legal/privacy-policy/#s3">About Ads</a></div>
+              <div><a href="https://www.spotify.com/it/accessibility">Accessibility</a></div>
+              <div><a  target="_blank" href="https://www.spotify.com/it/legal/cookies-policy/">Cookies</a></div>
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
-
-
     <div
       class="resize-handle-right"
       mwlResizeHandle
       [resizeEdges]="{ right: true }"
     ></div>
+
   </div>
 </div>
