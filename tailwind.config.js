@@ -15,9 +15,6 @@ module.exports = {
         elevatedBase: '#242424',
         elevatedHighlight: '#2a2a2a',
         elevatedPress: '#000',
-        tintedBase: 'hsla(0, 0%, 100%,.07)',
-        tintedHighlight: 'hsla(0, 0%, 100%,.1)',
-        tintedPress: 'hsla(0, 0%, 100%,.04)',
       }
     },
   },
