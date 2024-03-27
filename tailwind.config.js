@@ -18,6 +18,16 @@ module.exports = {
         tintedBase: 'hsla(0, 0%, 100%,.07)',
         tintedHighlight: 'hsla(0, 0%, 100%,.1)',
         tintedPress: 'hsla(0, 0%, 100%,.04)',
+      },
+      animation: {
+        fade: 'fade 1s ease',
+      },
+      keyframes: {
+        fade: {
+          '0%': { 'background-color': '#121212' },
+          '50%': { 'background-color': 'transparent' },
+          '100%': { 'background-color': '#121212' },
+        }
       }
     },
   },

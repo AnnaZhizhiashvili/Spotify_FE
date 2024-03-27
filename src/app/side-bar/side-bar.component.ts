@@ -28,8 +28,7 @@ export class SideBarComponent {
     }
     return true;
   }
-
-  onResizeEnd(event: ResizeEvent): void {
+  onResizing(event: ResizeEvent): void {
     this.style = {
       position: 'fixed',
       width: `${event.rectangle.width}px`,
@@ -37,7 +36,5 @@ export class SideBarComponent {
     };
     this.wrapperEl.nativeElement.style.width = event.rectangle.width + 'px';
     this.wrapperEl.nativeElement.style.height = event.rectangle.height + 'px';
-    console.log(event.rectangle.width, event.rectangle.height);
-    console.log(this.wrapperEl)
   }
 }

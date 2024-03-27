@@ -6,8 +6,7 @@
     [validateResize]="validate"
     [enableGhostResize]="true"
     [resizeSnapGrid]="{ left: 1, right: 1 }"
-    (resizeEnd)="onResizeEnd($event)"
-  >
+    (resizing)="onResizing($event)">
     <nav class="flex flex-col gap-2 mr-1">
       <div class="bg-base rounded-lg">
         <a class="" href="#"><img class="w-20 pl-6 mt-5" src="assets/Spotify_logo_text_white.svg" alt="Spotify-logo"></a>
