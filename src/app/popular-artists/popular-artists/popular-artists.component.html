@@ -1,1 +1,13 @@
-<h1  class="text-white">popular-artists works!</h1>
+<div>
+  <div class="flex justify-between items-center">
+    <h2 class="text-2xl	text-white font-bold"><a class="hover:underline">Popular artists</a></h2>
+    <a class="font-sm text-baseGray hover:underline">Show all</a>
+  </div>
+  <div>
+    @for (artist of artists$ | async; track $index) {
+      <app-artist-item></app-artist-item>
+    }
+
+    <app-artist-item></app-artist-item>
+  </div>
+</div>

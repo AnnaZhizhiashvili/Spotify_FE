@@ -6,21 +6,20 @@ import { Component, HostListener, OnInit } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  count = 0;
   fade: boolean = false;
+  scrollDirection: 'up' | 'down';
+  currentPosition = window.pageYOffset;
 
 
   @HostListener('window:scroll', ['$event'])
     scrollHandler(event: any) {
-    if(this.count === 0){
-      console.log(event)
-      this.fade = true;
-      setTimeout(() => {
-        this.fade = false;
-        this.count++
-      }, 2000);
-     }
-    }
-
-
+    let scroll = window.pageYOffset;
+    if (scroll > this.currentPosition) {
+        this.fade = true;
+        setTimeout(() => {
+          this.fade = false;
+        }, 1000);
+      }
+    this.currentPosition = scroll;
+  }
 }
