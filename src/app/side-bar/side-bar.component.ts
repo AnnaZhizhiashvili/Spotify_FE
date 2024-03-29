@@ -17,18 +17,17 @@ export class SideBarComponent {
   public style: object = {};
 
   validate(event: ResizeEvent): boolean {
-    const MIN_DIMENSIONS_PX: number = 50;
-    if (
-      event.rectangle.width &&
-      event.rectangle.height &&
-      (event.rectangle.width < MIN_DIMENSIONS_PX ||
-        event.rectangle.height < MIN_DIMENSIONS_PX)
-    ) {
+    const MIN_DIMENSIONS_PX: number = 200;
+    console.log(event.rectangle.width)
+    if (event.rectangle.width && event.rectangle.width < MIN_DIMENSIONS_PX) {
       return false;
+    } else {
+      return true;
     }
-    return true;
+
   }
   onResizing(event: ResizeEvent): void {
+
     this.style = {
       position: 'fixed',
       width: `${event.rectangle.width}px`,

@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class ArtistsService {
-  artists: [
+  artists = [
     {
       external_urls: {
         spotify: "https://open.spotify.com/artist/1"

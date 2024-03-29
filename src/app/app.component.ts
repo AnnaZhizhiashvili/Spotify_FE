@@ -7,19 +7,23 @@ import { Component, HostListener, OnInit } from '@angular/core';
 })
 export class AppComponent {
   fade: boolean = false;
-  scrollDirection: 'up' | 'down';
+  isTransparent = true;
   currentPosition = window.pageYOffset;
 
 
   @HostListener('window:scroll', ['$event'])
     scrollHandler(event: any) {
+
     let scroll = window.pageYOffset;
-    if (scroll > this.currentPosition) {
+    console.log(this.currentPosition, "currentPosition");
+    console.log(scroll, "scroll");
+    if (scroll > this.currentPosition && this.currentPosition === 0) {
         this.fade = true;
         setTimeout(() => {
           this.fade = false;
         }, 1000);
       }
     this.currentPosition = scroll;
+    this.isTransparent = this.currentPosition <= 10;
   }
 }

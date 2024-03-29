@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ArtistItemComponent } from '../artist-item/artist-item.component';
 import { ArtistsService } from '../artists.service';
 import { AsyncPipe } from '@angular/common';
@@ -13,9 +13,14 @@ import { AsyncPipe } from '@angular/common';
   templateUrl: './popular-artists.component.html',
   styleUrl: './popular-artists.component.scss'
 })
-export class PopularArtistsComponent {
+export class PopularArtistsComponent implements OnInit {
     artists$ = this.artistsService.getArtists();
     constructor(private artistsService: ArtistsService) {
 
+    }
+    ngOnInit() {
+      this.artists$.subscribe(a => {
+        console.log(a)
+      })
     }
 }

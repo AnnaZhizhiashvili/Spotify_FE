@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-artist-item',
@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './artist-item.component.scss'
 })
 export class ArtistItemComponent {
-
+  @Input() artist: any;
 }
