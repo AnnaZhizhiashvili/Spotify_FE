@@ -4,7 +4,7 @@
     <a class="font-sm text-baseGray hover:underline">Show all</a>
   </div>
   <div>
-    <div class="grid sm:grid-cols-1 md:grid-cols-2 grid-rows-1">
+    <div class="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 grid-rows-1">
       @for (artist of artists$ | async; track $index) {
         <app-artist-item [artist]="artist"></app-artist-item>
       } @empty {

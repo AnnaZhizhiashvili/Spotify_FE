@@ -127,4 +127,8 @@ export class ArtistsService {
   getArtists(): Observable<any[]> {
     return of(this.artists);
   }
+
+  getArtist(id: string): Observable<any> {
+    return of(this.artists.find(artist => artist.id === id));
+  }
 }
