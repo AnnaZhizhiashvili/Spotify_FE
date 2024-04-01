@@ -20,6 +20,7 @@ module.exports = {
         whiteTransparent: 'rgba(255, 255, 255,.5)',
         tintedHighlight: 'hsla(0, 0%, 100%,.1)',
         tintedPress: 'hsla(0, 0%, 100%,.04)',
+        blue: '#0d72ea'
       },
       animation: {
         fade: 'fade 1s ease',

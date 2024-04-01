@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { ArtistsService } from '../artists.service';
@@ -10,7 +10,7 @@ import { ArtistsService } from '../artists.service';
   templateUrl: './artist-details.component.html',
   styleUrl: './artist-details.component.scss'
 })
-export class ArtistDetailsComponent {
+export class ArtistDetailsComponent implements OnInit {
   artist: any;
   constructor(private route: ActivatedRoute, private artistService: ArtistsService) {
   }
@@ -19,7 +19,6 @@ export class ArtistDetailsComponent {
       switchMap(params => this.artistService.getArtist(params['id']))
       ).subscribe(artist => {
         this.artist = artist;
-      console.log(this.artist)
       }
     )
   }

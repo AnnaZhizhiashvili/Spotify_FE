@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { LocationService } from './shared/services/location.service';
 
 @Component({
   selector: 'app-root',
@@ -9,14 +10,10 @@ export class AppComponent {
   fade: boolean = false;
   isTransparent = true;
   currentPosition = window.pageYOffset;
-
-
+  constructor(private locationService: LocationService) { }
   @HostListener('window:scroll', ['$event'])
     scrollHandler(event: any) {
-
     let scroll = window.pageYOffset;
-    console.log(this.currentPosition, "currentPosition");
-    console.log(scroll, "scroll");
     if (scroll > this.currentPosition && this.currentPosition === 0) {
         this.fade = true;
         setTimeout(() => {
@@ -26,4 +23,13 @@ export class AppComponent {
     this.currentPosition = scroll;
     this.isTransparent = this.currentPosition <= 10;
   }
+
+  goBack() {
+    this.locationService.goBack();
+  }
+
+  goForward() {
+    this.locationService.goForward();
+  }
+
 }

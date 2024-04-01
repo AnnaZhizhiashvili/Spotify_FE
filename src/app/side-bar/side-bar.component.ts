@@ -4,11 +4,14 @@ import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
 import { AngularSplitModule } from 'angular-split';
 import { ImageModule } from 'primeng/image';
 import { ButtonComponent } from '../shared/button/button.component';
+import { DialogModule } from 'primeng/dialog';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-side-bar',
   standalone: true,
-  imports: [CommonModule, ResizableModule, AngularSplitModule, ImageModule, NgOptimizedImage, ButtonComponent],
+  imports: [CommonModule, ResizableModule, AngularSplitModule, ImageModule, NgOptimizedImage, ButtonComponent, DialogModule, OverlayPanelModule, ButtonModule],
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss']
 })
@@ -16,9 +19,9 @@ export class SideBarComponent {
   @ViewChild('wrapperEl') wrapperEl: ElementRef;
   public style: object = {};
 
+
   validate(event: ResizeEvent): boolean {
     const MIN_DIMENSIONS_PX: number = 200;
-    console.log(event.rectangle.width)
     if (event.rectangle.width && event.rectangle.width < MIN_DIMENSIONS_PX) {
       return false;
     } else {

@@ -1,7 +1,7 @@
 <header class="flex justify-between items-center py-4 px-5">
   <div class="flex gap-1">
-    <button class="bg-black w-8 h-8 rounded-full"><span class="text-baseGray text-sm"><i class="fa-solid fa-chevron-left"></i></span></button>
-    <button class="bg-black w-8 h-8 rounded-full"><span class="text-baseGray text-sm"><i class="fa-solid fa-chevron-right text-sm"></i></span></button>
+    <button (click)="onBackClick.emit()" class="bg-black w-8 h-8 rounded-full"><span class="text-baseGray text-sm"><i class="fa-solid fa-chevron-left"></i></span></button>
+    <button (click)="onForwardClick.emit()" class="bg-black w-8 h-8 rounded-full"><span class="text-baseGray text-sm"><i class="fa-solid fa-chevron-right text-sm"></i></span></button>
   </div>
   <div class="flex">
     <app-button [text]="'Sign up'" [type]="'link'" [size]="'bg'"></app-button>

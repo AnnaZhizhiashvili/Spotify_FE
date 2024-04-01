@@ -30,11 +30,29 @@
           <div class="flex justify-between">
             <a href="#" class="flex items-center gap-5 ">
               <img  class="transition-all duration-200 w-6" alt="library-icon" src="assets/icons8-library-25.png">
-              <span class="transition-all duration-200">Your Library</span>
+              <a  class="transition-all duration-200">Your Library</a>
+
             </a>
-            <a href="#" class="p-2 rounded-full hover:bg-highlight">
+            <button href="#" class="p-2 rounded-full hover:bg-highlight"  (click)="op.toggle($event)">
               <img  class="transition-all duration-200" alt="plus-icon" src="assets/icons8-plus.svg" width="15">
-            </a>
+            </button>
+
+            <div class="card flex justify-content-center">
+              <p-overlayPanel #op [style]="{backgroundColor: '#0d72ea', color: 'white'}">
+                <ng-template pTemplate="content">
+                  <div class="bg-blue flex flex-col">
+                    <div>
+                      <h2 class="font-bold mb-2">Create a playlist</h2>
+                      <h3 class="text-sm">Log in to create and share playlists.</h3>
+                    </div>
+                    <div class="flex mt-6 self-end">
+                      <app-button [text]="'Not now'" [type]="'link'"></app-button>
+                      <app-button [text]="'Log in'"></app-button>
+                    </div>
+                  </div>
+                </ng-template>
+              </p-overlayPanel>
+            </div>
           </div>
         </header>
         <div class=" px-2">
