@@ -15,7 +15,9 @@
   src: url('./assets/fonts/CircularSpotifyText-Book.otf') format('opentype');
 }
 
-
+html, body {
+  height: 100%;
+}
 
 * {
   font-family: Circular-book, sans-serif;

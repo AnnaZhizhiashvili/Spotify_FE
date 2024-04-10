@@ -3,6 +3,7 @@ module.exports = {
   content: ["./src/**/*.{html,js,ts}"],
   theme: {
     extend: {
+
       colors: {
         black: '#000',
         white: '#fff',
@@ -20,7 +21,10 @@ module.exports = {
         whiteTransparent: 'rgba(255, 255, 255,.5)',
         tintedHighlight: 'hsla(0, 0%, 100%,.1)',
         tintedPress: 'hsla(0, 0%, 100%,.04)',
-        blue: '#0d72ea'
+        blue: '#0d72ea',
+        greenBase: '#1ed760',
+        greenHighlight: '#1fdf64',
+        greenPress: '#169c46',
       },
       animation: {
         fade: 'fade 1s ease',
