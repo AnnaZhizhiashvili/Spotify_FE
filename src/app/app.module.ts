@@ -9,6 +9,7 @@ import { HeaderComponent } from './shared/header/header.component';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BannerComponent } from './shared/banner/banner.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SideBarComponent,
     FooterComponent,
     HeaderComponent,
+    BannerComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

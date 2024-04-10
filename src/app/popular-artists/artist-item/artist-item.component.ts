@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Route, Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-artist-item',

@@ -1,19 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { ArtistItemComponent } from '../artist-item/artist-item.component';
 import { ArtistsService } from '../artists.service';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-popular-artists',
   standalone: true,
   imports: [
     ArtistItemComponent,
-    AsyncPipe
+    AsyncPipe,
+    NgClass
   ],
   templateUrl: './popular-artists.component.html',
   styleUrl: './popular-artists.component.scss'
 })
 export class PopularArtistsComponent implements OnInit {
+    showAll = false;
     artists$ = this.artistsService.getArtists();
     constructor(private artistsService: ArtistsService) {
 

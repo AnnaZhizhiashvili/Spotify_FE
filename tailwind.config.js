@@ -26,6 +26,9 @@ module.exports = {
         greenHighlight: '#1fdf64',
         greenPress: '#169c46',
       },
+      backgroundImage: {
+        gradientBanner: 'linear-gradient(90deg,#af2896,#509bf5)'
+      },
       animation: {
         fade: 'fade 1s ease',
       },
