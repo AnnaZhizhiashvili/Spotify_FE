@@ -33,7 +33,7 @@
               <a  class="transition-all duration-200">Your Library</a>
 
             </a>
-            <button href="#" class="p-2 rounded-full hover:bg-highlight"  (click)="op.toggle($event)">
+            <button class="p-2 rounded-full hover:bg-highlight"  (click)="op.toggle($event)">
               <img  class="transition-all duration-200" alt="plus-icon" src="assets/icons8-plus.svg" width="15">
             </button>
 
@@ -46,7 +46,7 @@
                       <h3 class="text-sm">Log in to create and share playlists.</h3>
                     </div>
                     <div class="flex mt-6 self-end">
-                      <app-button [text]="'Not now'" [type]="'link'"></app-button>
+                      <app-button  (click)="op.toggle($event)" [text]="'Not now'" [type]="'link'"></app-button>
                       <app-button [text]="'Log in'"></app-button>
                     </div>
                   </div>
@@ -55,14 +55,14 @@
             </div>
           </div>
         </header>
-        <div class=" px-2">
+        <p-scrollPanel [style]="{ width: '100%', height: '200px' }" >
           <section class="bg-elevatedBase my-2 py-4 px-5 flex flex-col items-start gap-5 rounded-lg">
             <div class="flex flex-col gap-1 text-white">
               <span>Create your first playlist</span>
               <span class="text-sm">It's easy, we'll help you</span>
             </div>
             <div>
-              <app-button [text]="'Create playlist'"></app-button>
+              <app-button [text]="'Create playlist'" (click)="op.toggle($event)"></app-button>
             </div>
           </section>
           <section class="bg-elevatedBase my-2 py-4 px-5 flex flex-col items-start gap-5 rounded-lg">
@@ -74,6 +74,9 @@
               <app-button [text]="'Browse podcasts'"></app-button>
             </div>
           </section>
+        </p-scrollPanel>
+        <div class=" px-2">
+
           <div class="sidebar-footer px-5 my-7">
             <div class="flex flex-wrap gap-2 text-xs">
               <div><a href="https://www.spotify.com/it/legal/end-user-agreement/">Legal</a></div>

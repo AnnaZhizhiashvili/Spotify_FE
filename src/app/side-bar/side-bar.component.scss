@@ -49,5 +49,19 @@
     border: 1px solid black;
     height: 100%;
   }
+  p-scrollPanel::ng-deep {
+    .p-scrollpanel-bar.p-scrollpanel-bar-y {
+      border-radius: 0;
+      box-shadow: unset;
+      cursor: unset;
+      &.p-scrollpanel-grabbed, &:focus-visible  {
+        background-color: rgba(255, 255, 255,.6);
+      }
+      &:not(.p-scrollpanel-grabbed, p-scrollpanel-bar:focus-visible  ) {
+        background-color: rgba(255, 255, 255,.3);
+      }
+    }
+  }
+
 
 }

@@ -7,11 +7,12 @@ import { ButtonComponent } from '../shared/button/button.component';
 import { DialogModule } from 'primeng/dialog';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ButtonModule } from 'primeng/button';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 @Component({
   selector: 'app-side-bar',
   standalone: true,
-  imports: [CommonModule, ResizableModule, AngularSplitModule, ImageModule, NgOptimizedImage, ButtonComponent, DialogModule, OverlayPanelModule, ButtonModule],
+  imports: [CommonModule, ResizableModule, AngularSplitModule, ImageModule, NgOptimizedImage, ButtonComponent, DialogModule, OverlayPanelModule, ButtonModule, ScrollPanelModule],
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss']
 })
