@@ -1,33 +1,34 @@
 import { Component, HostListener } from '@angular/core';
-import { LocationService } from './shared/services/location.service';
-import { SideBarComponent } from './side-bar/side-bar.component';
-import { HeaderComponent } from './shared/header/header.component';
 import { NgClass } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { FooterComponent } from './shared/footer/footer.component';
-import { BannerComponent } from './shared/banner/banner.component';
+import { FooterComponent } from '../shared/footer/footer.component';
+import { BannerComponent } from '../shared/banner/banner.component';
+import { SideBarComponent } from '../side-bar/side-bar.component';
+import { HeaderComponent } from '../shared/header/header.component';
+import { LocationService } from '../shared/services/location.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
+  selector: 'app-home',
+  templateUrl: './home.component.html',
   standalone: true,
   imports: [BannerComponent, SideBarComponent, HeaderComponent, FooterComponent, NgClass, RouterOutlet],
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./home.component.scss']
 })
-export class AppComponent {
+
+export class HomeComponent {
   fade: boolean = false;
   isTransparent = true;
   currentPosition = window.pageYOffset;
   constructor(private locationService: LocationService) { }
   @HostListener('window:scroll', ['$event'])
-    scrollHandler(event: any) {
+  scrollHandler(event: any) {
     let scroll = window.pageYOffset;
     if (scroll > this.currentPosition && this.currentPosition === 0) {
-        this.fade = true;
-        setTimeout(() => {
-          this.fade = false;
-        }, 1000);
-      }
+      this.fade = true;
+      setTimeout(() => {
+        this.fade = false;
+      }, 1000);
+    }
     this.currentPosition = scroll;
     this.isTransparent = this.currentPosition <= 10;
   }

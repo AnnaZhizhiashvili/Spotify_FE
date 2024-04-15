@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ArtistItemComponent } from '../artist-item/artist-item.component';
 import { ArtistsService } from '../artists.service';
 import { AsyncPipe, NgClass } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-popular-artists',
@@ -17,12 +18,23 @@ import { AsyncPipe, NgClass } from '@angular/common';
 export class PopularArtistsComponent implements OnInit {
     showAll = false;
     artists$ = this.artistsService.getArtists();
-    constructor(private artistsService: ArtistsService) {
+    constructor(private router: Router, private artistsService: ArtistsService, private activatedRoute: ActivatedRoute) {
 
     }
     ngOnInit() {
-      this.artists$.subscribe(a => {
-        console.log(a)
-      })
+      this.activatedRoute.queryParams.subscribe(params => {
+        // Check if 'showAll' query parameter exists and set the state accordingly
+        this.showAll = params['all'] === 'true';
+      });
     }
+
+  setShowAllState(state: boolean) {
+    this.showAll = state;
+    // Update the URL with the new state of 'showAll'
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: { all: state },
+      queryParamsHandling: 'merge', // Merge with existing query parameters
+    }).then();
+  }
 }

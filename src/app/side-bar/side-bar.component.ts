@@ -1,7 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
-import { AngularSplitModule } from 'angular-split';
 import { ImageModule } from 'primeng/image';
 import { ButtonComponent } from '../shared/button/button.component';
 import { DialogModule } from 'primeng/dialog';
@@ -12,7 +11,7 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 @Component({
   selector: 'app-side-bar',
   standalone: true,
-  imports: [CommonModule, ResizableModule, AngularSplitModule, ImageModule, NgOptimizedImage, ButtonComponent, DialogModule, OverlayPanelModule, ButtonModule, ScrollPanelModule],
+  imports: [CommonModule, ResizableModule, ImageModule, NgOptimizedImage, ButtonComponent, DialogModule, OverlayPanelModule, ButtonModule, ScrollPanelModule],
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss']
 })

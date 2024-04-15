@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("../node_modules/primeicons/primeicons.css");
+@import url("../node_modules/primeng/resources/primeng.min.css");
+@import url("../node_modules/primeng/resources/themes/lara-light-blue/theme.css");
+
+
 @font-face {
   font-family: 'Circular-black';
   src: url('./assets/fonts/CircularSpotifyText-Black.otf') format('opentype');
@@ -26,3 +31,7 @@ html, body {
 a {
   cursor: pointer;
 }
+
+
+
+
