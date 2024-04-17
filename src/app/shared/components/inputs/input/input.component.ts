@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { InputBaseComponent } from '../input.base.component';
 
 @Component({
   selector: 'app-input',
@@ -15,13 +16,11 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     InputGroupAddonModule
   ],
   templateUrl: './input.component.html',
-  styleUrl: './input.component.scss'
+  styleUrls: ['../input.base.component.scss','./input.component.scss']
 })
-export class InputComponent {
-  @Input() formControl: FormControl
-  @Input() label: string
-  @Input() placeholder: string
-  @Input() type: string
-  @Input() required: boolean
-  @Input() disabled: boolean
+export class InputComponent extends InputBaseComponent {
+  constructor() {
+    super();
+  }
+
 }

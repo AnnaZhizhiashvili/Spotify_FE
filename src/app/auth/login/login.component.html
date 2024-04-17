@@ -1,4 +1,14 @@
+<div class="bg-base bg-gradientBg ">
+  <div class=" w-full max-w-[734px] m-auto bg-base h-full z-10 flex flex-col items-center justify-center">
+    <div class="login-form m-auto w-80">
+      <app-input [placeholder]="'Username'" [label]="'Username'" [formControl]="getControl(formGroup, 'username')"></app-input>
+      <app-password [placeholder]="'Password'" [label]="'Password'" [formControl]="getControl(formGroup, 'password')"></app-password>
+      <app-input-switch [formControl]="getControl(formGroup, 'rememberMe')" [label]="'Remember me'"></app-input-switch>
+      <div>
+        <app-button class="block py-8" [text]="'Log in'" [size]="'full'" [bgColor]="'#1ed760'"></app-button>
+      </div>
+    </div>
 
-<div class="absolute w-full h-full bg-amber-800 z-10">
-  <app-input [placeholder]="'Username'" [label]="'Username'" [formControl]="getControl(formGroup, 'username')"></app-input>
+  </div>
 </div>
+

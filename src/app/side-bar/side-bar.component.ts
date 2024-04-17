@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
 import { ImageModule } from 'primeng/image';
-import { ButtonComponent } from '../shared/button/button.component';
+import { ButtonComponent } from '../shared/components/button/button.component';
 import { DialogModule } from 'primeng/dialog';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ButtonModule } from 'primeng/button';

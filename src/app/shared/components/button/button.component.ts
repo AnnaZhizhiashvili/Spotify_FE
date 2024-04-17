@@ -11,6 +11,7 @@ import { NgClass } from '@angular/common';
 export class ButtonComponent {
   @Input() text: string;
   @Input() type: 'regular' | 'link' = 'regular'
-  @Input() size: 'sm' | 'bg' = 'sm'
+  @Input() size: 'sm' | 'lg' | 'full' = 'sm'
+  @Input() bgColor: string;
 
 }

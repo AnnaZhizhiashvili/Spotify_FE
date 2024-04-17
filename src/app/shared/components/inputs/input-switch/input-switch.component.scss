@@ -1,0 +1,33 @@
+:host {
+  p-inputSwitch ::ng-deep {
+    width: 30px;
+    height: 16px;
+    display: block;
+    .p-inputswitch {
+       width: 100%;
+       height: 100%;
+    }
+    .p-inputswitch-slider {
+      background: #727272;
+      box-shadow: inset 0 0 0 1px #878787;
+      &::before {
+        background: black;
+        height: 12px;
+        width: 12px;
+        margin-top: -6px;
+      }
+    }
+
+    .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+      background: #1ed760;
+
+      &:before {
+        left: -3px;
+      }
+    }
+
+    .p-focus .p-inputswitch-slider {
+      outline: 3px solid white;
+    }
+  }
+}
