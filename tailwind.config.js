@@ -19,6 +19,7 @@ module.exports = {
         tintedBase: 'hsla(0, 0%, 100%,.07)',
         blackTransparent: 'rgba(0, 0, 0,.5)',
         whiteTransparent: 'rgba(255, 255, 255,.5)',
+        whiteLessTransparent: 'rgba(255, 255, 255, 0.7)',
         tintedHighlight: 'hsla(0, 0%, 100%,.1)',
         tintedPress: 'hsla(0, 0%, 100%,.04)',
         blue: '#0d72ea',

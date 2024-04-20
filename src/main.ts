@@ -4,6 +4,7 @@ import { provideRouter } from '@angular/router';
 import { LoginComponent } from './app/auth/login/login.component';
 import { HomeComponent } from './app/home/home.component';
 import { PopularArtistsComponent } from './app/popular-artists/popular-artists/popular-artists.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 
@@ -20,6 +21,6 @@ bootstrapApplication(AppComponent, {
           loadChildren: () => import('./app/popular-artists/artists.routes').then(r => r.ARTISTS_ROUTES)
         }
       ]
-      )
+      ), provideAnimationsAsync()
   ]
 }).then()

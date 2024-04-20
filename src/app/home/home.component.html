@@ -1,11 +1,16 @@
-<div class="bg-black layout p-2 min-h-screen	">
-  <div class="flex pb-16">
-    <app-side-bar></app-side-bar>
-    <div class="flex flex-col items-stretch flex-1 relative ml-2 bg-base rounded-t-lg">
-      <app-header (onBackClick)="goBack()" (onForwardClick)="goForward()" (scroll)="scrollHandler($event)"  [class.animate-fade]="fade" [ngClass]="isTransparent ? 'bg-blackTransparent' : 'bg-base'" class="h-16 top-2 right-2 left-0 sticky rounded-t-lg"></app-header>
-      <router-outlet></router-outlet>
-      <app-footer class="flex-1 pt-10"></app-footer>
-    </div>
-  </div>
-  <app-banner class="fixed bottom-2 right-2 left-2 bg-gradientBanner h-14"></app-banner>
-</div>
+<!--<div class="bg-black layout p-2 min-h-screen	">-->
+<!--  <div class="flex pb-16">-->
+<!--    <app-side-bar></app-side-bar>-->
+<!--    <div class="flex flex-col items-stretch flex-1 relative ml-2 bg-base rounded-t-lg">-->
+<!--      <app-header (onBackClick)="goBack()" (onForwardClick)="goForward()" (scroll)="scrollHandler($event)"  [class.animate-fade]="fade" [ngClass]="isTransparent ? 'bg-blackTransparent' : 'bg-base'" class="h-16 top-2 right-2 left-0 sticky rounded-t-lg"></app-header>-->
+<!--      <router-outlet></router-outlet>-->
+<!--      <app-footer class="flex-1 pt-10"></app-footer>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <app-banner class="fixed bottom-2 right-2 left-2 bg-gradientBanner h-14"></app-banner>-->
+<!--</div>-->
+
+
+<app-custom-audio-player></app-custom-audio-player>
+
+

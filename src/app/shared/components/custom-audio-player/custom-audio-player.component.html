@@ -1,0 +1,57 @@
+<div id="music-player" class="flex justify-between bg-black text-white">
+  <div class="flex">
+    <div class="album-art w-16" >
+      <img id="album-photo"  src="https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228" alt="Album Photo">
+    </div>
+    <div class="album-info">
+      <h1 id="album-title">TITLE</h1>
+      <p id="album-artist">ARTIST NAME</p>
+   </div>
+  </div>
+
+  <div class="w-1/2">
+    <!-- Audio -->
+    <audio  preload="metadata" id="audio">
+      <source src="https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <div>
+      <div class="controls flex justify-center items-center gap-4 text-whiteLessTransparent mb-4">
+        <div class="flex gap-2">
+          <button id="shuffle-button" class="hover:cursor-default">
+            <i class="hover:text-white fa-solid fa-shuffle"></i>
+          </button>
+          <button id="prev-button">
+            <i class="hover:text-white fa-solid fa-backward-step"></i>
+          </button>
+        </div>
+        <button class="play-pause-btn hover:scale-110" id="play-pause">
+          <i class="fa-solid fa-play absolute top-1/2	left-[53%] translate-y-[-50%] translate-x-[-50%] "></i>
+        </button>
+        <div class="flex gap-2">
+          <button id="next-button">
+            <i class="hover:text-white fa-solid fa-forward-step"></i>
+          </button>
+          <button id="repeat-button">
+            <i class="hover:text-white fa-solid fa-repeat"></i>
+          </button>
+        </div>
+      </div>
+      <div class="controls flex">
+        <span id="current-time">0:00</span>
+        <p-slider class="slider" (onChange)="onSliderChange($event)" [(ngModel)]="sliderValue" styleClass="w-full mt-3"></p-slider>
+        <span id="total-duration">0:00</span>
+      </div>
+    </div>
+  </div>
+  <div>
+    <!-- Volume Slider -->
+    <div class="controls">
+      <span>🔉</span>
+      <input type="range" id="volume" min="0" max="1" step="0.1" value="1">
+      <span>🔊</span>
+    </div>
+  </div>
+</div>
+
+
