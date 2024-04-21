@@ -6,14 +6,13 @@ import { BannerComponent } from '../shared/components/banner/banner.component';
 import { SideBarComponent } from '../side-bar/side-bar.component';
 import { HeaderComponent } from '../shared/components/header/header.component';
 import { LocationService } from '../shared/services/location.service';
-import { NgxAudioPlayerModule, Track } from '@khajegan/ngx-audio-player';
 import { CustomAudioPlayerComponent } from '../shared/components/custom-audio-player/custom-audio-player.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   standalone: true,
-  imports: [BannerComponent, SideBarComponent, HeaderComponent, FooterComponent, NgClass, RouterOutlet, NgxAudioPlayerModule, CustomAudioPlayerComponent],
+  imports: [BannerComponent, SideBarComponent, HeaderComponent, FooterComponent, NgClass, RouterOutlet, CustomAudioPlayerComponent],
   styleUrls: ['./home.component.scss']
 })
 

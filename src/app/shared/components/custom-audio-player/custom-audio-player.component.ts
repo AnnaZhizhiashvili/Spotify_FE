@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { SliderModule } from 'primeng/slider';
 import { FormsModule } from '@angular/forms';
 
@@ -12,186 +12,174 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './custom-audio-player.component.html',
   styleUrl: './custom-audio-player.component.scss'
 })
-export class CustomAudioPlayerComponent implements OnInit, AfterViewInit {
-  sliderValue = 0;
-  constructor(private elementRef:ElementRef) {
+export class CustomAudioPlayerComponent implements AfterViewInit {
+  @ViewChild('playerRef') playerRef: ElementRef<HTMLAudioElement>;
+  @ViewChild('volumeRef') volumeRef: ElementRef<HTMLAudioElement>;
+
+  get $player(): HTMLAudioElement {
+    return this.playerRef.nativeElement;
   }
 
+  get $volume(): HTMLElement {
+    return this.volumeRef.nativeElement;
+  }
+
+  sliderValue = 0;
+  volumeValue = 50;
+  prevValue = 50;
+  isPlaying = false;
+  currentTrack = 0;
+  audioPosition = 0;
+  isMuted = false;
+
+
+  // Array of Track URLs
+  trackList = [
+    "https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17",
+    "https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17",
+    "https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17",
+    "https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17",
+    "https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17",
+    // Add more tracks as needed
+  ];
+
+
   ngAfterViewInit() {
-      const audio: any = document.getElementById("audio");
-      const playPauseButton = document.getElementById("play-pause");
-      const prevButton = document.getElementById("prev-button");
-      const nextButton = document.getElementById("next-button");
-      const volumeControl: any = document.getElementById("volume");
-      // const trackSlider: any = document.getElementById("track-slider");
-      const currentTimeDisplay = document.getElementById("current-time");
-      const totalDurationDisplay = document.getElementById("total-duration");
-      const trackNameDisplay = document.getElementById("track-name");
-      const albumPhoto: any = document.getElementById("album-photo");
+    const playPauseButton = document.getElementById("play-pause");
+    const prevButton = document.getElementById("prev-button");
+    const nextButton = document.getElementById("next-button");
+    const currentTimeDisplay = document.getElementById("current-time");
+    const totalDurationDisplay = document.getElementById("total-duration");
 
-
-      let isPlaying = false;
-      let currentTrack = 0;
-      let audioPosition = 0;
-
-
-      // Array of Track URLs
-      const trackList = [
-        "https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17",
-        "https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17",
-        "https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17",
-        "https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17",
-        "https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17",
-        // Add more tracks as needed
-      ];
-
-      audio.addEventListener('loadedmetadata', function () {
-        totalDurationDisplay!.textContent = formatTime(audio.duration);
-      })
+      this.$player.addEventListener('loadedmetadata',  () => {
+          totalDurationDisplay!.textContent = this.formatTime(this.$player.duration);
+        })
       // Function to toggle between Play and Pause
-      function togglePlayPause() {
-        if (!isPlaying) {
-          if (audioPosition === 0) {
+      const togglePlayPause = () => {
+        if (!this.isPlaying) {
+          if (this.audioPosition === 0) {
             // Start from the beginning of the track
-            audio!.src = trackList[currentTrack];
+            this.$player!.src = this.trackList[this.currentTrack];
           }
-          audio.load();
-          audio.currentTime = audioPosition; // Set the audio position
-          audio
+          this.$player.load();
+          this.$player.currentTime = this.audioPosition; // Set the audio position
+          this.$player
             .play()
             .then(() => {
-              console.log("i n play")
               playPauseButton!.innerHTML ="<i class='fa-solid fa-pause absolute top-1/2 left-1/2 translate-y-[-50%] translate-x-[-50%]'></i>";
-              isPlaying = true;
-              updateTrackName(currentTrack);
+              this.isPlaying = true;
+              console.log(this.$player.currentTime, "current ");
 
             })
             .catch((error: { message: string; }) => {
-              console.error("Audio Playback Error: " + error.message);
             });
         } else {
-          console.log(" in pause")
-          audioPosition = audio.currentTime; // Store the current audio position
-          audio.pause();
+          this.audioPosition = this.$player.currentTime; // Store the current audio position
+          this.$player.pause();
           playPauseButton!.innerHTML = "<i class=\"fa-solid fa-play absolute top-1/2 left-[53%] translate-y-[-50%] translate-x-[-50%]\"></i>";
-          isPlaying = false;
+          this.isPlaying = false;
         }
       }
 
       playPauseButton!.addEventListener("click", togglePlayPause);
 
-
       // Function to play the next track
-      nextButton!.addEventListener("click", function () {
-        if (currentTrack < trackList.length - 1) {
-          currentTrack++;
+      nextButton!.addEventListener("click",  () => {
+        if (this.currentTrack < this.trackList.length - 1) {
+          this.currentTrack++;
         } else {
-          currentTrack = 0;
+          this.currentTrack = 0;
         }
-        playTrack(currentTrack);
+        playTrack(this.currentTrack);
       });
 
 
       // Function to play the previous track
-      prevButton!.addEventListener("click", function () {
-        if (currentTrack > 0) {
-          currentTrack--;
+      prevButton!.addEventListener("click",  () => {
+        if (this.currentTrack > 0) {
+          this.currentTrack--;
         } else {
-          currentTrack = trackList.length - 1;
+          this.currentTrack = this.trackList.length - 1;
         }
-        playTrack(currentTrack);
+        playTrack(this.currentTrack);
       });
+
+    this.$player.addEventListener("timeupdate",  () => {
+      const currentTime = this.formatTime(this.$player.currentTime);
+      const totalDuration = this.formatTime(this.$player.duration);
+      currentTimeDisplay!.textContent = currentTime;
+      totalDurationDisplay!.textContent = totalDuration;
+      console.log(currentTime, "in timeupdate");
+      // Update the track slider as the audio plays
+      this.sliderValue = (this.$player.currentTime / this.$player.duration) * 100;;
+    });
+
+    // Handle track ending and play the next track
+    this.$player.addEventListener("ended",  () => {
+      if (this.currentTrack < this.trackList.length - 1) {
+        this.currentTrack++;
+      } else {
+        this.currentTrack = 0;
+      }
+      playTrack(this.currentTrack);
+    });
 
 
       // Function to play a specific track
-      function playTrack(trackIndex: number) {
-        audio.play();
-        isPlaying = true;
+      const playTrack = (trackIndex: number) => {
+        this.$player.play();
+        this.isPlaying = true;
         setUpAudio(trackIndex)
 
-        updateTrackName(trackIndex); // Updating the track name
       }
-
-
-      function setUpAudio(trackIndex: number) {
-        audio.src = trackList[trackIndex];
-        // audio.currentTime = 0; // Set the audio position
-        console.log(audio.currentTime )
-        audio.load();
-        playPauseButton!.innerHTML ="<i class='fa-solid fa-pause absolute top-1/2 left-1/2 translate-y-[-50%] translate-x-[-50%]'></i>";
-        const currentTime = formatTime(audio.currentTime);
-        const totalDuration = formatTime(audio.duration);
-        currentTimeDisplay!.textContent = currentTime;
-        totalDurationDisplay!.textContent = totalDuration;
-      }
-
-
-      // Function to update the track name
-      function updateTrackName(trackIndex: number) {
-      }
-
-      volumeControl!.addEventListener("input", function () {
-        audio.volume = volumeControl!.value;
-      });
-
-
       // Update the audio time displays
-      audio.addEventListener("timeupdate",  () => {
-        const currentTime = formatTime(audio.currentTime);
-        const totalDuration = formatTime(audio.duration);
+
+
+      const setUpAudio = (trackIndex: number) => {
+        this.$player.src = this.trackList[trackIndex];
+        this.$player.load();
+        const currentTime = this.formatTime(this.$player.currentTime);
+        const totalDuration = this.formatTime(this.$player.duration);
         currentTimeDisplay!.textContent = currentTime;
         totalDurationDisplay!.textContent = totalDuration;
-        console.log(currentTime)
-        console.log(totalDuration)
+    }
 
-        // Update the track slider as the audio plays
-        const position = (audio.currentTime / audio.duration) * 100;
-        this.sliderValue = position;
-      });
-
-
-      // Seek to a position when the user interacts with the track slider
-
-
-
-
-      // Handle track ending and play the next track
-      audio.addEventListener("ended", function () {
-        if (currentTrack < trackList.length - 1) {
-          currentTrack++;
-        } else {
-          currentTrack = 0;
-        }
-        playTrack(currentTrack);
-      });
-
-      function formatTime(seconds: number) {
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = Math.floor(seconds % 60);
-        return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
-      }
-
-
-
-
-    // this.elementRef.nativeElement.querySelector('my-element')
-    //   .addEventListener('click', this.onClick.bind(this));
+    setUpAudio(this.currentTrack);
   }
 
-  onSliderChange(event: any) {
-    console.log(event)
-    console.log(this.sliderValue, "val")
-      const audio: any = document.getElementById("audio");
-    console.log(audio!.duration, "duration")
-    console.log(this.sliderValue, "slideraval")
-      audio!.currentTime = (this.sliderValue / 100) * audio!.duration;
-    console.log(audio!.currentTime, "currentTime")
+  onSliderChange() {
+    this.$player!.currentTime = (this.sliderValue / 100) * this.$player!.duration;
+    this.audioPosition = this.$player.currentTime;
+    console.log(this.$player.currentTime)
   }
 
 
-  ngOnInit() {
-
+  onVolumeChange(event: any) {
+    this.prevValue = event.value;
+    this.$player.volume = event.value / 100;
+    if (this.$player.volume === 0) {
+      this.$volume!.innerHTML = "<i class='pi pi-volume-off '></i>";
+    }  else {
+      this.$volume!.innerHTML = "<i class='pi pi-volume-down'></i>";
+    }
   }
 
+  onMuteUnmute() {
+    this.isMuted = !this.isMuted;
+    if (this.isMuted) {
+      this.$player.volume = 0;
+      this.$volume!.innerHTML = "<i class='pi pi-volume-off '></i>";
+    } else {
+      this.$player.volume = this.prevValue / 100;
+      this.$volume!.innerHTML = "<i class='pi pi-volume-up'></i>";
+    }
+  }
+
+
+   formatTime(seconds: number) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  }
 
 }

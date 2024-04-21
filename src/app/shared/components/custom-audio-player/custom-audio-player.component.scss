@@ -66,11 +66,7 @@ button {
 
 .slider {
   width: 100%;
-  height: 25px;
 }
-
-
-
 
 /* Border Animation with cool effects */
 #music-player {
@@ -79,8 +75,8 @@ button {
 
 
 :host {
-  p-slider ::ng-deep {
-    &:hover {
+  p-slider ::ng-deep, .volume-control{
+    &:hover  {
       ::ng-deep  {
         .p-slider-handle {
           opacity:1;
@@ -101,9 +97,13 @@ button {
       }
       .p-slider-handle {
         background: white;
-        opacity: 0;
+        opacity: 1;
         width: 14px;
         height: 14px;
+        top: 4px;
+        &:focus {
+          box-shadow: unset;
+        }
 
       }
     }

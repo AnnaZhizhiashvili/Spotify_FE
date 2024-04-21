@@ -1,22 +1,22 @@
-<div id="music-player" class="flex justify-between bg-black text-white">
+<div id="music-player" class="flex justify-between bg-black text-white p-3">
   <div class="flex">
-    <div class="album-art w-16" >
-      <img id="album-photo"  src="https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228" alt="Album Photo">
+    <div class="album-art w-16 rounded-sm mr-2 align-center justify-center" >
+      <img class="rounded-sm" id="album-photo"  src="https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228" alt="Album Photo">
     </div>
-    <div class="album-info">
-      <h1 id="album-title">TITLE</h1>
-      <p id="album-artist">ARTIST NAME</p>
+    <div class="album-info flex flex-col justify-center ml-2">
+      <h1 id="album-title" class="text-sm ">TITLE</h1>
+      <p id="album-artist"  class="text-xs text-textGrey ">ARTIST NAME</p>
    </div>
   </div>
 
   <div class="w-1/2">
     <!-- Audio -->
-    <audio  preload="metadata" id="audio">
+    <audio  preload="metadata" id="audio" #playerRef>
       <source src="https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17" type="audio/mpeg">
       Your browser does not support the audio element.
     </audio>
     <div>
-      <div class="controls flex justify-center items-center gap-4 text-whiteLessTransparent mb-4">
+      <div class="controls flex justify-center items-center gap-4 text-whiteLessTransparent mb-2">
         <div class="flex gap-2">
           <button id="shuffle-button" class="hover:cursor-default">
             <i class="hover:text-white fa-solid fa-shuffle"></i>
@@ -39,17 +39,18 @@
       </div>
       <div class="controls flex">
         <span id="current-time">0:00</span>
-        <p-slider class="slider" (onChange)="onSliderChange($event)" [(ngModel)]="sliderValue" styleClass="w-full mt-3"></p-slider>
+        <p-slider class="slider flex items-center" (onChange)="onSliderChange()" [(ngModel)]="sliderValue" styleClass="w-full"></p-slider>
         <span id="total-duration">0:00</span>
       </div>
     </div>
   </div>
-  <div>
+  <div class="flex">
     <!-- Volume Slider -->
-    <div class="controls">
-      <span>🔉</span>
-      <input type="range" id="volume" min="0" max="1" step="0.1" value="1">
-      <span>🔊</span>
+    <div class="controls volume-control flex items-center justify-between gap-3 ">
+      <div id="volume" #volumeRef class="h-4 text-textGrey hover:text-white" (click)="onMuteUnmute()">
+        <i class="pi pi-volume-down"></i>
+      </div>
+      <p-slider class="w-28 block" (onChange)="onVolumeChange($event)" [(ngModel)]="volumeValue" styleClass="w-full"></p-slider>
     </div>
   </div>
 </div>

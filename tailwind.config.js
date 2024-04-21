@@ -17,6 +17,7 @@ module.exports = {
         elevatedHighlight: '#2a2a2a',
         elevatedPress: '#000',
         tintedBase: 'hsla(0, 0%, 100%,.07)',
+        textGrey: '#A7A7A7',
         blackTransparent: 'rgba(0, 0, 0,.5)',
         whiteTransparent: 'rgba(255, 255, 255,.5)',
         whiteLessTransparent: 'rgba(255, 255, 255, 0.7)',
