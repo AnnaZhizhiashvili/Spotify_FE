@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -123,12 +125,14 @@ export class ArtistsService {
     }
   ]
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
   getArtists(): Observable<any[]> {
-    return of(this.artists);
+    return this.http.get<any[]>(`${environment.baseUrl}/artists`)
   }
 
   getArtist(id: string): Observable<any> {
     return of(this.artists.find(artist => artist.id === id));
   }
+
+
 }

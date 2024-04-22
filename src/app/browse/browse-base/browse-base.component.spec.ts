@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ArtistComponent } from './artist.component';
+import { BrowseBaseComponent } from './browse-base.component';
 
-describe('ArtistComponent', () => {
-  let component: ArtistComponent;
-  let fixture: ComponentFixture<ArtistComponent>;
+describe('BrowseBaseComponent', () => {
+  let component: BrowseBaseComponent;
+  let fixture: ComponentFixture<BrowseBaseComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ArtistComponent]
+      imports: [BrowseBaseComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ArtistComponent);
+    fixture = TestBed.createComponent(BrowseBaseComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

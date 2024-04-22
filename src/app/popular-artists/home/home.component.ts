@@ -1,12 +1,12 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { FooterComponent } from '../shared/components/footer/footer.component';
-import { BannerComponent } from '../shared/components/banner/banner.component';
-import { SideBarComponent } from '../side-bar/side-bar.component';
-import { HeaderComponent } from '../shared/components/header/header.component';
-import { LocationService } from '../shared/services/location.service';
-import { CustomAudioPlayerComponent } from '../shared/components/custom-audio-player/custom-audio-player.component';
+import { FooterComponent } from '../../shared/components/footer/footer.component';
+import { BannerComponent } from '../../shared/components/banner/banner.component';
+import { SideBarComponent } from '../../side-bar/side-bar.component';
+import { HeaderComponent } from '../../shared/components/header/header.component';
+import { LocationService } from '../../shared/services/location.service';
+import { CustomAudioPlayerComponent } from '../../shared/components/custom-audio-player/custom-audio-player.component';
 
 @Component({
   selector: 'app-home',
@@ -41,8 +41,8 @@ export class HomeComponent implements OnInit {
   goForward() {
     this.locationService.goForward();
   }
-ngOnInit() {
+  ngOnInit() {
 
 
-}
+  }
 }
