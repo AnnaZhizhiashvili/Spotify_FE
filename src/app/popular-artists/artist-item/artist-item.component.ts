@@ -1,11 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { ItemComponent } from '../../shared/components/item/item.component';
 
 @Component({
   selector: 'app-artist-item',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    ItemComponent
   ],
   templateUrl: './artist-item.component.html',
   styleUrl: './artist-item.component.scss'
