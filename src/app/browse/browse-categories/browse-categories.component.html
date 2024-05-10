@@ -1,0 +1,11 @@
+
+<section class="px-6  text-2xl">
+  <h2 class="text-white my-2 font-bold">Browse all</h2>
+  <div class="categories-container flex flex-wrap gap-2 items-center">
+    @for (category of categories$ | async; track $index) {
+      <a [ngStyle]="{'background-color': category.color}" class="rounded-lg w-36 h-40 p-3" (click)="goToSpecificGenre(category.name)">
+          <h3 class="text-white">{{category.name | capitalizeFirst}}</h3>
+      </a>
+      }
+  </div>
+</section>

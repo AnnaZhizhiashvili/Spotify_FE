@@ -1,7 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputBaseComponent } from '../input.base.component';
+import { SearchService } from '../../../services/search.service';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -14,8 +16,21 @@ import { InputBaseComponent } from '../input.base.component';
   templateUrl: './search.component.html',
   styleUrls: ['../input.base.component.scss', './search.component.scss']
 })
-export class SearchComponent extends InputBaseComponent {
-  constructor() {
+export class SearchComponent extends InputBaseComponent implements OnInit {
+  constructor(private searchService: SearchService) {
     super();
   }
+  ngOnInit() {
+    this.formControl.valueChanges.pipe(
+      debounceTime(300),
+    ).subscribe(value => {
+      if (!value) {
+        this.searchService.searchDataAvailable.next(false);
+      } else {
+        this.searchService.searchDataAvailable.next(true);
+      }
+    })
+  }
+
+
 }

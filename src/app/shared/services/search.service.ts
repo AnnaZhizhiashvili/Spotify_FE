@@ -9,11 +9,12 @@ import { HttpClient } from '@angular/common/http';
 export class SearchService {
   artists: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   tracks: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
-  playlists: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
-  shows: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
-  episodes: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
-  audiobooks: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  // playlists: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  // shows: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  // episodes: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  // audiobooks: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   albums: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  searchDataAvailable = new BehaviorSubject(false)
 
   constructor(private http: HttpClient) { }
   search(keyWord: string, type?: any): Observable<any> {
@@ -25,11 +26,12 @@ export class SearchService {
       tap(data => {
         this.artists.next(data.artists.items);
         this.tracks.next(data.tracks.items);
-        this.playlists.next(data.playlists.items);
-        this.shows.next(data.shows.items);
-        this.episodes.next(data.episodes.items);
-        this.audiobooks.next(data.audiobooks.items);
+        // this.playlists.next(data.playlists.items);
+        // this.shows.next(data.shows.items);
+        // this.episodes.next(data.episodes.items);
+        // this.audiobooks.next(data.audiobooks.items);
         this.albums.next(data.albums.items);
+        this.searchDataAvailable.next(true)
       })
     )
   }

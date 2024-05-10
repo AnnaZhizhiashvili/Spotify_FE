@@ -1,10 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-item',
   standalone: true,
-  imports: [],
+  imports: [
+    NgClass
+  ],
   templateUrl: './item.component.html',
   styleUrl: './item.component.scss'
 })
@@ -19,6 +22,7 @@ export class ItemComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.item)
   }
+
 
 
 }

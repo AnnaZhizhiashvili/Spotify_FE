@@ -1,7 +1,7 @@
 <div>
   <div class="group hover:bg-highlight rounded-md flex flex-col gap-2 p-3 w-48 cursor-pointer" (click)="navigateToArtist(item.id)">
     <div class="relative ">
-      <div class="w-40 rounded-full overflow-hidden self-center">
+      <div class="w-40 overflow-hidden self-center" [ngClass]="type === 'artists' ? 'rounded-full' : 'rounded-md'" >
         <img [src]="type !== 'tracks' ? item.images[0]?.url : item?.album?.images[0]?.url" alt="Artist image">
       </div>
 <!--      <h1>{{ item.images[0]?.url }}</h1>-->
@@ -16,4 +16,3 @@
   </div>
 </div>
 
-<h1 class="text-white">what is this</h1>

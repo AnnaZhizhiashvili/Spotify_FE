@@ -23,6 +23,7 @@ module.exports = {
         whiteLessTransparent: 'rgba(255, 255, 255, 0.7)',
         tintedHighlight: 'hsla(0, 0%, 100%,.1)',
         tintedPress: 'hsla(0, 0%, 100%,.04)',
+        textSubdued: '#6a6a6a',
         blue: '#0d72ea',
         greenBase: '#1ed760',
         greenHighlight: '#1fdf64',
