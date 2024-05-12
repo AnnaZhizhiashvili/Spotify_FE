@@ -17,7 +17,6 @@ export class ArtistItemComponent {
     constructor(private router: Router) {
   }
   navigateToArtist(id: string) {
-    console.log(id)
     this.router.navigate(['/artists', id]).then()
   }
 }

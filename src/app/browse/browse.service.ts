@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { map, Observable, pluck, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { UtilitiesService } from '../shared/services/utilities.service';
 
 @Injectable({
@@ -20,8 +20,7 @@ export class BrowseService {
             color: this.utilitiesService.getRandomColor()
           }
         }).slice(0, 40)
-      }),
-      tap(d => console.log(d))
+      })
     );
   }
 }

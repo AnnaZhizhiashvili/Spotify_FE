@@ -11,7 +11,7 @@ import { NgClass } from '@angular/common';
   templateUrl: './item.component.html',
   styleUrl: './item.component.scss'
 })
-export class ItemComponent implements OnInit {
+export class ItemComponent {
   @Input() item: any;
   @Input() type: 'artists' | 'tracks' | 'playlists' |'shows' | 'episodes' | 'audiobooks' | 'albums';
   constructor(private router: Router) {
@@ -19,10 +19,6 @@ export class ItemComponent implements OnInit {
   navigateToArtist(id: string) {
     this.router.navigate([`${this.type}`, id]).then()
   }
-  ngOnInit(): void {
-    console.log(this.item)
-  }
-
 
 
 }

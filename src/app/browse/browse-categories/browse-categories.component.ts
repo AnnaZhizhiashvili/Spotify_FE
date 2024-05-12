@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { BrowseService } from '../browse.service';
 import { AsyncPipe, NgStyle } from '@angular/common';
-import { UtilitiesService } from '../../shared/services/utilities.service';
 import { CapitalizeFirstPipe } from '../../shared/pipes/capitalize-first.pipe';
-import { SearchService } from '../../shared/services/search.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-browse-categories',
@@ -18,9 +17,12 @@ import { SearchService } from '../../shared/services/search.service';
 })
 export class BrowseCategoriesComponent {
   categories$ = this.browseService.getCategories();
-  constructor(private browseService: BrowseService, private searchService: SearchService) { }
+  constructor(
+    private browseService: BrowseService,
+    private router: Router
+    ) { }
 
   goToSpecificGenre(genre: string) {
-    this.searchService.search(genre).subscribe()
+    this.router.navigate(['/search/' + genre]).then();
   }
 }

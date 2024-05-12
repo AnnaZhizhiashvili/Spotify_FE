@@ -7,7 +7,6 @@ import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { BannerComponent } from './shared/components/banner/banner.component';
 import { FormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs';
 import { SearchService } from './shared/services/search.service';
 
 @Component({
@@ -17,7 +16,7 @@ import { SearchService } from './shared/services/search.service';
   imports: [BannerComponent, SideBarComponent, HeaderComponent, FooterComponent, NgClass, RouterOutlet],
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   fade: boolean = false;
   isTransparent = true;
   currentPosition = window.pageYOffset;
@@ -35,18 +34,6 @@ export class AppComponent implements OnInit {
       }
     this.currentPosition = scroll;
     this.isTransparent = this.currentPosition <= 10;
-  }
-
-  ngOnInit() {
-    this.searchFormControl.valueChanges.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(q => {
-        return this.searchService.search(q)
-      }))
-      .subscribe((value) => {
-      console.log(value);
-    });
   }
 
   goBack() {

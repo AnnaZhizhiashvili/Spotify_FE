@@ -4,6 +4,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputBaseComponent } from '../input.base.component';
 import { SearchService } from '../../../services/search.service';
 import { debounceTime } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -17,7 +18,7 @@ import { debounceTime } from 'rxjs';
   styleUrls: ['../input.base.component.scss', './search.component.scss']
 })
 export class SearchComponent extends InputBaseComponent implements OnInit {
-  constructor(private searchService: SearchService) {
+  constructor(private searchService: SearchService, private router: Router) {
     super();
   }
   ngOnInit() {
@@ -29,6 +30,7 @@ export class SearchComponent extends InputBaseComponent implements OnInit {
       } else {
         this.searchService.searchDataAvailable.next(true);
       }
+      this.router.navigate([`/search/${value}`]).then();
     })
   }
 

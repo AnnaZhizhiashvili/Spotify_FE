@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, refCount, shareReplay, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 
@@ -32,7 +32,8 @@ export class SearchService {
         // this.audiobooks.next(data.audiobooks.items);
         this.albums.next(data.albums.items);
         this.searchDataAvailable.next(true)
-      })
+      }),
+      shareReplay()
     )
   }
 }

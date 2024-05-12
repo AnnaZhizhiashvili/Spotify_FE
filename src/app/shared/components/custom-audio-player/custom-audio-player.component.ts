@@ -68,8 +68,6 @@ export class CustomAudioPlayerComponent implements AfterViewInit {
             .then(() => {
               playPauseButton!.innerHTML ="<i class='fa-solid fa-pause absolute top-1/2 left-1/2 translate-y-[-50%] translate-x-[-50%]'></i>";
               this.isPlaying = true;
-              console.log(this.$player.currentTime, "current ");
-
             })
             .catch((error: { message: string; }) => {
             });
@@ -109,7 +107,6 @@ export class CustomAudioPlayerComponent implements AfterViewInit {
       const totalDuration = this.formatTime(this.$player.duration);
       currentTimeDisplay!.textContent = currentTime;
       totalDurationDisplay!.textContent = totalDuration;
-      console.log(currentTime, "in timeupdate");
       // Update the track slider as the audio plays
       this.sliderValue = (this.$player.currentTime / this.$player.duration) * 100;;
     });
@@ -150,7 +147,6 @@ export class CustomAudioPlayerComponent implements AfterViewInit {
   onSliderChange() {
     this.$player!.currentTime = (this.sliderValue / 100) * this.$player!.duration;
     this.audioPosition = this.$player.currentTime;
-    console.log(this.$player.currentTime)
   }
 
 
