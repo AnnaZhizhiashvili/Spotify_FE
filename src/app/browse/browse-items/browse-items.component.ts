@@ -1,11 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ArtistItemComponent } from '../../popular-artists/artist-item/artist-item.component';
 import { AsyncPipe } from '@angular/common';
 import { ItemComponent } from '../../shared/components/item/item.component';
 import { SearchService } from '../../shared/services/search.service';
 import { UtilitiesService } from '../../shared/services/utilities.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-browse-items',
@@ -18,17 +18,15 @@ import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
   templateUrl: './browse-items.component.html',
   styleUrl: './browse-items.component.scss'
 })
-export class BrowseItemsComponent implements OnInit, OnDestroy {
+export class BrowseItemsComponent implements OnInit {
   artists$ = this.searchService.artists.asObservable();
   albums$ = this.searchService.albums.asObservable();
   tracks$ = this.searchService.tracks.asObservable();
-  subscription: Subscription;
 
   constructor(
     private searchService: SearchService,
     private utilitiesService: UtilitiesService,
     private route: ActivatedRoute,
-    private router: Router,
   ) {
   }
   ngOnInit() {
@@ -47,7 +45,4 @@ export class BrowseItemsComponent implements OnInit, OnDestroy {
     return this.utilitiesService.getFullYear(date);
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
 }

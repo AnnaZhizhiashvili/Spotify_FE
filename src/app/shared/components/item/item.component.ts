@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgClass } from '@angular/common';
 
@@ -17,7 +17,7 @@ export class ItemComponent {
   constructor(private router: Router) {
   }
   navigateToArtist(id: string) {
-    this.router.navigate([`${this.type}`, id]).then()
+    this.router.navigate([`${this.type}`, id], {state: {item: this.item}}).then()
   }
 
 

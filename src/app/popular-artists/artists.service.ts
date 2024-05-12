@@ -130,8 +130,8 @@ export class ArtistsService {
     return this.http.get<any[]>(`${environment.baseUrl}/artists`)
   }
 
-  getArtist(id: string): Observable<any> {
-    return of(this.artists.find(artist => artist.id === id));
+  getArtistTracks(id: string): Observable<any> {
+    return this.http.get<any[]>(`${environment.baseUrl}/artist/${id}/tracks`)
   }
 
 
