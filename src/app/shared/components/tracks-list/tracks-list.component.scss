@@ -3,4 +3,8 @@
     background: transparent;
     color: #A7A7A7;
   }
+  tr:hover {
+    background-color: hsla(0, 0%, 100%,.1);
+    cursor: pointer;
+  }
 }

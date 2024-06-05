@@ -1,7 +1,7 @@
 <p>tracks-list works!</p>
 
 <section>
-  <p-table [value]="tracks()?.tracks" [tableStyle]="{ 'min-width': '50rem' }">
+  <p-table [value]="customizedTracks()" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
       <tr>
         <th>#</th>
@@ -12,8 +12,14 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-track let-i="rowIndex">>
-      <tr>
-        <td>{{ i + 1}}</td>
+      <tr (click)="selectTrack(track.id)">
+        <td>
+          @if (track.isActive) {
+            <i class="fa-solid fa-play"></i>
+          } @else {
+            <span>{{ i + 1}}</span>
+          }
+        </td>
         <td>
           <div class="flex">
             <div class="w-16 overflow-hidden rounded-md ">
