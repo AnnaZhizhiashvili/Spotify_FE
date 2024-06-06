@@ -11,7 +11,7 @@
         <th><i class="far fa-clock"></i></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-track let-i="rowIndex">>
+    <ng-template pTemplate="body" let-track let-i="rowIndex">
       <tr (click)="selectTrack(track.id)">
         <td>
           @if (track.isActive) {
@@ -40,7 +40,6 @@
       </tr>
     </ng-template>
   </p-table>
-
-
 </section>
+
 

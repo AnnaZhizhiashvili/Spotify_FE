@@ -12,7 +12,7 @@
   <div class="w-1/2">
     <!-- Audio -->
     <audio  preload="metadata" id="audio" #playerRef>
-      <source src="https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17" type="audio/mpeg">
+      <source [src]="this.track().preview_url" type="audio/mpeg">
       Your browser does not support the audio element.
     </audio>
     <div>

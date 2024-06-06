@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, signal, ViewChild } from '@angular/core';
 import { SliderModule } from 'primeng/slider';
 import { FormsModule } from '@angular/forms';
 
@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 export class CustomAudioPlayerComponent implements AfterViewInit {
   @ViewChild('playerRef') playerRef: ElementRef<HTMLAudioElement>;
   @ViewChild('volumeRef') volumeRef: ElementRef<HTMLAudioElement>;
+  @Input() track = signal<any>({});
 
   get $player(): HTMLAudioElement {
     return this.playerRef.nativeElement;
@@ -34,14 +35,7 @@ export class CustomAudioPlayerComponent implements AfterViewInit {
 
 
   // Array of Track URLs
-  trackList = [
-    "https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17",
-    "https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17",
-    "https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17",
-    "https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17",
-    "https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17",
-    // Add more tracks as needed
-  ];
+  trackList = [this.track().preview_url];
 
 
   ngAfterViewInit() {
@@ -59,7 +53,7 @@ export class CustomAudioPlayerComponent implements AfterViewInit {
         if (!this.isPlaying) {
           if (this.audioPosition === 0) {
             // Start from the beginning of the track
-            this.$player!.src = this.trackList[this.currentTrack];
+            this.$player!.src = this.track().preview_url;
           }
           this.$player.load();
           this.$player.currentTime = this.audioPosition; // Set the audio position

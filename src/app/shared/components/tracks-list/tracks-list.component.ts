@@ -1,7 +1,9 @@
-import { Component, computed, effect, input, Input, OnInit, signal, Signal } from '@angular/core';
+import { Component, computed, effect, inject, input, Input, OnInit, Output, signal, Signal } from '@angular/core';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
 import { TableModule } from 'primeng/table';
 import { ArrayToStringPipe } from '../../pipes/array-to-string.pipe';
+import { CustomAudioPlayerComponent } from '../custom-audio-player/custom-audio-player.component';
+import { TracksService } from '../../services/tracks.service';
 
 @Component({
   selector: 'app-tracks-list',
@@ -9,22 +11,29 @@ import { ArrayToStringPipe } from '../../pipes/array-to-string.pipe';
   imports: [
     TruncatePipe,
     TableModule,
-    ArrayToStringPipe
+    ArrayToStringPipe,
+    CustomAudioPlayerComponent
   ],
   templateUrl: './tracks-list.component.html',
   styleUrl: './tracks-list.component.scss'
 })
 export class TracksListComponent implements OnInit {
+  private tracksService = inject(TracksService);
   @Input() tracks = signal({tracks: []})
   customizedTracks = computed(() => this.tracks()?.tracks?.map((track: any) => ({...track, isActive: false })))
   ngOnInit() {
   }
 
   selectTrack(id: string) {
+    this.customizedTracks().forEach((track: { id: string; isActive: boolean; }) => {
+      if (track.id === id) {
+        track.isActive = !track.isActive;
+      } else {
+        track.isActive = false;
+      }
+    })
     const selectedTrack = this.customizedTracks().find((track: { id: string; }) => track.id === id)
-    if(selectedTrack) {
-      selectedTrack.isActive =!selectedTrack.isActive;
-    }
+    this.tracksService.selectedTrack.set(selectedTrack.name);
   }
 
 }
