@@ -25,6 +25,7 @@ export class TracksListComponent implements OnInit {
   }
 
   selectTrack(id: string) {
+    this.tracksService.selectedTrack.set('');
     this.customizedTracks().forEach((track: { id: string; isActive: boolean; }) => {
       if (track.id === id) {
         track.isActive = !track.isActive;

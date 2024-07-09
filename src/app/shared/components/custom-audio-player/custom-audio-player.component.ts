@@ -1,4 +1,12 @@
-import { AfterViewInit, Component, ElementRef, Input, signal, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component, computed,
+  effect,
+  ElementRef,
+  Input,
+  signal,
+  ViewChild
+} from '@angular/core';
 import { SliderModule } from 'primeng/slider';
 import { FormsModule } from '@angular/forms';
 
@@ -15,7 +23,30 @@ import { FormsModule } from '@angular/forms';
 export class CustomAudioPlayerComponent implements AfterViewInit {
   @ViewChild('playerRef') playerRef: ElementRef<HTMLAudioElement>;
   @ViewChild('volumeRef') volumeRef: ElementRef<HTMLAudioElement>;
-  @Input() track = signal<any>({});
+  @Input() track = signal<{ preview_url: string } | any>({});
+  trackList: string[] = [];
+  // Array of Track URLs
+  trackListSignal: any = computed(() => {
+    console.log("computed")
+    const currentTrackUrl = this.track().preview_url;
+    console.log("computed 1")
+    if (currentTrackUrl && !this.trackList.includes(currentTrackUrl)) {
+      this.trackList.push(currentTrackUrl);
+      console.log(this.trackList, "this.trackList, after push")
+    }
+    this.currentTrack = this.trackList.length - 1;
+    console.log(this.currentTrack, "currentTrack")
+    return [...this.trackList, currentTrackUrl];
+  });
+
+
+  constructor() {
+    effect(() => {
+      this.setUpAudio(this.currentTrack);
+    })
+  }
+
+
 
   get $player(): HTMLAudioElement {
     return this.playerRef.nativeElement;
@@ -34,11 +65,22 @@ export class CustomAudioPlayerComponent implements AfterViewInit {
   isMuted = false;
 
 
-  // Array of Track URLs
-  trackList = [this.track().preview_url];
+  setUpAudio(trackIndex: number)  {
+    const currentTimeDisplay = document.getElementById("current-time");
+    const totalDurationDisplay = document.getElementById("total-duration");
+    this.$player.src = this.track().preview_url;
+    this.$player.load();
+    const currentTime = this.formatTime(this.$player.currentTime);
+    const totalDuration = this.formatTime(this.$player.duration);
+    currentTimeDisplay!.textContent = currentTime;
+    totalDurationDisplay!.textContent = totalDuration;
+  }
+
+
 
 
   ngAfterViewInit() {
+
     const playPauseButton = document.getElementById("play-pause");
     const prevButton = document.getElementById("prev-button");
     const nextButton = document.getElementById("next-button");
@@ -77,7 +119,7 @@ export class CustomAudioPlayerComponent implements AfterViewInit {
 
       // Function to play the next track
       nextButton!.addEventListener("click",  () => {
-        if (this.currentTrack < this.trackList.length - 1) {
+        if (this.currentTrack < this.trackListSignal().length - 1) {
           this.currentTrack++;
         } else {
           this.currentTrack = 0;
@@ -91,7 +133,7 @@ export class CustomAudioPlayerComponent implements AfterViewInit {
         if (this.currentTrack > 0) {
           this.currentTrack--;
         } else {
-          this.currentTrack = this.trackList.length - 1;
+          this.currentTrack = this.trackListSignal().length - 1;
         }
         playTrack(this.currentTrack);
       });
@@ -107,7 +149,7 @@ export class CustomAudioPlayerComponent implements AfterViewInit {
 
     // Handle track ending and play the next track
     this.$player.addEventListener("ended",  () => {
-      if (this.currentTrack < this.trackList.length - 1) {
+      if (this.currentTrack < this.trackListSignal().length - 1) {
         this.currentTrack++;
       } else {
         this.currentTrack = 0;
@@ -120,22 +162,13 @@ export class CustomAudioPlayerComponent implements AfterViewInit {
       const playTrack = (trackIndex: number) => {
         this.$player.play();
         this.isPlaying = true;
-        setUpAudio(trackIndex)
+        this.setUpAudio(trackIndex)
 
       }
       // Update the audio time displays
 
 
-      const setUpAudio = (trackIndex: number) => {
-        this.$player.src = this.trackList[trackIndex];
-        this.$player.load();
-        const currentTime = this.formatTime(this.$player.currentTime);
-        const totalDuration = this.formatTime(this.$player.duration);
-        currentTimeDisplay!.textContent = currentTime;
-        totalDurationDisplay!.textContent = totalDuration;
-    }
-
-    setUpAudio(this.currentTrack);
+    this.setUpAudio(this.currentTrack);
   }
 
   onSliderChange() {
