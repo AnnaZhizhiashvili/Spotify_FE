@@ -1,48 +1,47 @@
 import {
   AfterViewInit,
-  Component, computed,
-  effect,
-  ElementRef,
-  Input,
-  signal,
+  Component,
+  ElementRef, inject,
+  Input, OnInit,
   ViewChild
 } from '@angular/core';
 import { SliderModule } from 'primeng/slider';
 import { FormsModule } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { TracksService } from '../../services/tracks.service';
 
 @Component({
   selector: 'app-custom-audio-player',
   standalone: true,
   imports: [
     SliderModule,
-    FormsModule
+    FormsModule,
+    NgIf,
+    AsyncPipe
   ],
   templateUrl: './custom-audio-player.component.html',
   styleUrl: './custom-audio-player.component.scss'
 })
-export class CustomAudioPlayerComponent implements AfterViewInit {
+export class CustomAudioPlayerComponent implements AfterViewInit, OnInit {
+  private tracksService = inject(TracksService);
   @ViewChild('playerRef') playerRef: ElementRef<HTMLAudioElement>;
   @ViewChild('volumeRef') volumeRef: ElementRef<HTMLAudioElement>;
-  @Input() track = signal<{ preview_url: string } | any>({});
-  trackList: string[] = [];
-  // Array of Track URLs
-  trackListSignal: any = computed(() => {
-    console.log("computed")
-    const currentTrackUrl = this.track().preview_url;
-    console.log("computed 1")
-    if (currentTrackUrl && !this.trackList.includes(currentTrackUrl)) {
-      this.trackList.push(currentTrackUrl);
-      console.log(this.trackList, "this.trackList, after push")
-    }
-    this.currentTrack = this.trackList.length - 1;
-    console.log(this.currentTrack, "currentTrack")
-    return [...this.trackList, currentTrackUrl];
-  });
+  @Input() track = new BehaviorSubject<{ preview_url: string } | any>({});
+  tracksListHistory$ = this.tracksService.tracksHistory;
+  tracksListHistory: any[] = [];
 
 
-  constructor() {
-    effect(() => {
+  ngOnInit() {
+    this.track.subscribe((track: any) => {
+      // this.trackList = track.preview_url &&!this.trackList.includes(track.preview_url)? [track.preview_url,...this.trackList] : this.trackList;
+      this.currentTrack = this.tracksListHistory$.getValue().length - 1;
       this.setUpAudio(this.currentTrack);
+    })
+
+    this.tracksListHistory$.subscribe((tracks: any[]) => {
+      this.currentTrack = tracks.length - 1;
+      this.tracksListHistory =  tracks;
     })
   }
 
@@ -66,14 +65,18 @@ export class CustomAudioPlayerComponent implements AfterViewInit {
 
 
   setUpAudio(trackIndex: number)  {
-    const currentTimeDisplay = document.getElementById("current-time");
-    const totalDurationDisplay = document.getElementById("total-duration");
-    this.$player.src = this.track().preview_url;
-    this.$player.load();
-    const currentTime = this.formatTime(this.$player.currentTime);
-    const totalDuration = this.formatTime(this.$player.duration);
-    currentTimeDisplay!.textContent = currentTime;
-    totalDurationDisplay!.textContent = totalDuration;
+    const track = this.tracksListHistory[trackIndex];
+    if (track) {
+      const currentTimeDisplay = document.getElementById("current-time");
+      const totalDurationDisplay = document.getElementById("total-duration");
+      this.$player.src = this.tracksListHistory[this.currentTrack].preview_url;
+
+      this.$player.load();
+      const currentTime = this.formatTime(this.$player.currentTime);
+      const totalDuration = this.formatTime(this.$player.duration);
+      currentTimeDisplay!.textContent = currentTime;
+      totalDurationDisplay!.textContent = totalDuration;
+    }
   }
 
 
@@ -95,7 +98,7 @@ export class CustomAudioPlayerComponent implements AfterViewInit {
         if (!this.isPlaying) {
           if (this.audioPosition === 0) {
             // Start from the beginning of the track
-            this.$player!.src = this.track().preview_url;
+            this.$player!.src = this.track.getValue();
           }
           this.$player.load();
           this.$player.currentTime = this.audioPosition; // Set the audio position
@@ -119,7 +122,7 @@ export class CustomAudioPlayerComponent implements AfterViewInit {
 
       // Function to play the next track
       nextButton!.addEventListener("click",  () => {
-        if (this.currentTrack < this.trackListSignal().length - 1) {
+        if (this.currentTrack < this.tracksListHistory.length - 1) {
           this.currentTrack++;
         } else {
           this.currentTrack = 0;
@@ -133,7 +136,7 @@ export class CustomAudioPlayerComponent implements AfterViewInit {
         if (this.currentTrack > 0) {
           this.currentTrack--;
         } else {
-          this.currentTrack = this.trackListSignal().length - 1;
+          this.currentTrack = this.tracksListHistory.length - 1;
         }
         playTrack(this.currentTrack);
       });
@@ -149,7 +152,7 @@ export class CustomAudioPlayerComponent implements AfterViewInit {
 
     // Handle track ending and play the next track
     this.$player.addEventListener("ended",  () => {
-      if (this.currentTrack < this.trackListSignal().length - 1) {
+      if (this.currentTrack < this.tracksListHistory.length - 1) {
         this.currentTrack++;
       } else {
         this.currentTrack = 0;

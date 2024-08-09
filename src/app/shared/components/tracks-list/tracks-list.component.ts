@@ -25,7 +25,6 @@ export class TracksListComponent implements OnInit {
   }
 
   selectTrack(id: string) {
-    this.tracksService.selectedTrack.set('');
     this.customizedTracks().forEach((track: { id: string; isActive: boolean; }) => {
       if (track.id === id) {
         track.isActive = !track.isActive;
@@ -34,7 +33,7 @@ export class TracksListComponent implements OnInit {
       }
     })
     const selectedTrack = this.customizedTracks().find((track: { id: string; }) => track.id === id)
-    this.tracksService.selectedTrack.set(selectedTrack.name);
+    this.tracksService.selectedTrack.next(selectedTrack.name);
   }
 
 }

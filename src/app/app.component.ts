@@ -10,7 +10,7 @@ import { FormControl } from '@angular/forms';
 import { SearchService } from './shared/services/search.service';
 import { CustomAudioPlayerComponent } from './shared/components/custom-audio-player/custom-audio-player.component';
 import { TracksService } from './shared/services/tracks.service';
-import { async } from 'rxjs';
+import {  BehaviorSubject, concatMap, filter, tap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -19,21 +19,16 @@ import { async } from 'rxjs';
   imports: [BannerComponent, SideBarComponent, HeaderComponent, FooterComponent, NgClass, RouterOutlet, CustomAudioPlayerComponent, AsyncPipe],
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements  OnInit {
+export class AppComponent implements OnInit {
   private tracksService = inject(TracksService);
-  selectedTrack = signal<any>(null)
+  selectedTrack = new BehaviorSubject<any>({});
   fade: boolean = false;
   isTransparent = true;
   currentPosition = window.pageYOffset;
   searchFormControl = new FormControl();
 
   constructor(private locationService: LocationService, private searchService: SearchService) {
-    effect(d => {
-      this.tracksService.getTrack(this.tracksService.selectedTrack()).subscribe((track: any) => {
-        console.log(track.tracks.items[0])
-        this.selectedTrack.set(track.tracks.items[0]);
-      })
-    })
+
   }
   @HostListener('window:scroll', ['$event'])
     scrollHandler(event: any) {
@@ -47,17 +42,26 @@ export class AppComponent implements  OnInit {
     this.currentPosition = scroll;
     this.isTransparent = this.currentPosition <= 10;
   }
+  ngOnInit(): void {
+    this.tracksService.selectedTrack.pipe(
+      filter(trackId => !!trackId),
+      concatMap((trackId: string) => this.tracksService.getTrack(trackId)),
+      tap((track: any) => {
+        const newTrack = track.tracks.items[0].preview_url;
+        const tracksHistory = this.tracksService.tracksHistory.getValue();
+        const newHistoryItem = {preview_url: newTrack, index: tracksHistory.length + 1, timestamp: new Date()  };
+        this.tracksService.tracksHistory.next([...tracksHistory, newHistoryItem]);
+        this.selectedTrack.next(newTrack);
 
+      })
+    ).subscribe()
+  }
   goBack() {
     this.locationService.goBack();
   }
 
   goForward() {
     this.locationService.goForward();
-  }
-
-  ngOnInit(): void {
-
   }
 
 

@@ -10,7 +10,7 @@
   <app-banner class="fixed bottom-2 right-2 left-2 bg-gradientBanner h-14"></app-banner>
 </div>
 
-@if (selectedTrack()) {
+@if (selectedTrack | async) {
   <app-custom-audio-player class="fixed bottom-0 left-0 right-0" [track]="selectedTrack"></app-custom-audio-player>
 }
 
