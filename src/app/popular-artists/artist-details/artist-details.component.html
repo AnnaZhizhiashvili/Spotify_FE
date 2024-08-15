@@ -1,2 +1,2 @@
 <h1 class="text-white">{{artist.name}}</h1>
-<app-tracks-list [tracks]="tracks"/>
+<app-tracks-list [tracks]="tracks" [isPlayerActiveSignal]="isPlayerActiveSignal" (trackSelected)="onTrackSelect($event)"/>

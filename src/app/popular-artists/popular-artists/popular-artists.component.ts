@@ -26,7 +26,11 @@ export class PopularArtistsComponent implements OnInit {
         // Check if 'showAll' query parameter exists and set the state accordingly
         this.showAll = params['all'] === 'true';
       });
+
+      this.artistsService.getArtist('1424821').subscribe((artists) => {})
     }
+
+
 
   setShowAllState(state: boolean) {
     this.showAll = state;

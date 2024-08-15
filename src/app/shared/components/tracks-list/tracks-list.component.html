@@ -1,5 +1,3 @@
-<p>tracks-list works!</p>
-
 <section>
   <p-table [value]="customizedTracks()" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
@@ -7,7 +5,7 @@
         <th>#</th>
         <th>Title</th>
         <th>Album</th>
-        <th>Date added</th>
+<!--        <th>Date added</th>-->
         <th><i class="far fa-clock"></i></th>
       </tr>
     </ng-template>
@@ -15,7 +13,11 @@
       <tr (click)="selectTrack(track.id)">
         <td>
           @if (track.isActive) {
-            <i class="fa-solid fa-play"></i>
+            @if(isPlayerActiveSignal()) {
+              <i class="fa-solid fa-pause"></i>
+            } @else {
+              <i class="fa-solid fa-play"></i>
+            }
           } @else {
             <span>{{ i + 1}}</span>
           }
@@ -23,20 +25,20 @@
         <td>
           <div class="flex">
             <div class="w-16 overflow-hidden rounded-md ">
-              <img class="" alt="'track picture" [src]="track.album.images[0].url">
+              <img class="" alt="'track picture" [src]="track.album.cover_medium">
             </div>
             <div class="text-white flex flex-col justify-center">
-              <span>{{track.name | truncate:20}}</span>
+              <span>{{track.title | truncate:20}}</span>
               <div class="flex text-textGrey items-center gap-1">
-                <span class="text-nowrap">{{track.artists | arrayToString | truncate}}</span>
+                <span class="text-nowrap">{{track.artist.name | truncate}}</span>
               </div>
             </div>
           </div>
 
         </td>
-        <td>{{ track.album.name }}</td>
-        <td>{{ track.album.release_date }}</td>
-        <td>{{ track.duration_ms }}</td>
+        <td>{{ track.album.title }}</td>
+<!--        <td>{{ track.album.release_date }}</td>-->
+        <td>{{ track.duration }}</td>
       </tr>
     </ng-template>
   </p-table>

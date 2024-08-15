@@ -1,15 +1,16 @@
 import {
   AfterViewInit,
-  Component,
+  Component, effect,
   ElementRef, inject,
-  Input, OnInit,
+  Input, OnDestroy, OnInit,
   ViewChild
 } from '@angular/core';
 import { SliderModule } from 'primeng/slider';
 import { FormsModule } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, filter, map, take, takeUntil, tap } from 'rxjs';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { TracksService } from '../../services/tracks.service';
+import { log } from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 
 @Component({
   selector: 'app-custom-audio-player',
@@ -23,55 +24,152 @@ import { TracksService } from '../../services/tracks.service';
   templateUrl: './custom-audio-player.component.html',
   styleUrl: './custom-audio-player.component.scss'
 })
-export class CustomAudioPlayerComponent implements AfterViewInit, OnInit {
+export class CustomAudioPlayerComponent implements AfterViewInit, OnInit, OnDestroy {
   private tracksService = inject(TracksService);
   @ViewChild('playerRef') playerRef: ElementRef<HTMLAudioElement>;
   @ViewChild('volumeRef') volumeRef: ElementRef<HTMLAudioElement>;
-  @Input() track = new BehaviorSubject<{ preview_url: string } | any>({});
-  tracksListHistory$ = this.tracksService.tracksHistory;
-  tracksListHistory: any[] = [];
+  @Input() track$: BehaviorSubject<any>
+  track = { preview: '' };
+  destroyed$ = new BehaviorSubject(false);
+  // tracksListHistory$ = this.tracksService.tracksHistory;
+  // tracksListHistory: any[] = [];
 
+  constructor() {
 
+  }
   ngOnInit() {
-    this.track.subscribe((track: any) => {
-      // this.trackList = track.preview_url &&!this.trackList.includes(track.preview_url)? [track.preview_url,...this.trackList] : this.trackList;
-      this.currentTrack = this.tracksListHistory$.getValue().length - 1;
-      this.setUpAudio(this.currentTrack);
+
+    const playPauseButton = document.getElementById("play-pause");
+    const prevButton = document.getElementById("prev-button");
+    const nextButton = document.getElementById("next-button");
+    const currentTimeDisplay = document.getElementById("current-time");
+    const totalDurationDisplay = document.getElementById("total-duration");
+
+    const togglePlayPause = () => {
+      this.tracksService.trackSelected$.pipe(
+        filter(track => track!== null && track!== undefined && Object.keys(track).length > 0),
+        tap((track) => {
+          this.$player.src = track.preview;
+          this.$player.play().then(() => {})
+          this.audioPosition = 0;
+          this.$player.currentTime = this.audioPosition;
+          this.$player
+            .play()
+            .then(() => {
+              playPauseButton!.innerHTML = "<i class='fa-solid fa-pause absolute top-1/2 left-1/2 translate-y-[-50%] translate-x-[-50%]'></i>";
+            })
+        })
+      ).subscribe();
+
+      this.tracksService.audioPlayPauseToggleClicked.pipe(
+        filter(val => val),
+        tap((val) => {
+          if (this.tracksService.isPlayerActive()) {
+            this.$player.pause();
+            playPauseButton!.innerHTML = "<i class=\"fa-solid fa-play absolute top-1/2 left-[53%] translate-y-[-50%] translate-x-[-50%]\"></i>";
+          } else {
+            this.audioPosition = this.$player.currentTime;
+            this.$player.play().then()
+            playPauseButton!.innerHTML = "<i class=\"fa-solid fa-pause absolute top-1/2 left-[53%] translate-y-[-50%] translate-x-[-50%]\"></i>";
+          }
+        })
+      ).subscribe()
+
+      // Function to play the next track
+      // nextButton!.addEventListener("click", () => {
+      //   if (this.currentTrack < this.tracksListHistory.length - 1) {
+      //     this.currentTrack++;
+      //   } else {
+      //     this.currentTrack = 0;
+      //   }
+      //   playTrack(this.currentTrack);
+      // });
+
+
+      // Function to play the previous track
+      // prevButton!.addEventListener("click", () => {
+      //   if (this.currentTrack > 0) {
+      //     this.currentTrack--;
+      //   } else {
+      //     this.currentTrack = this.tracksListHistory.length - 1;
+      //   }
+      //   playTrack(this.currentTrack);
+      // });
+
+      this.$player?.addEventListener("timeupdate", () => {
+        const currentTime = this.formatTime(this.$player.currentTime);
+        const totalDuration = this.formatTime(this.$player.duration);
+        currentTimeDisplay!.textContent = currentTime;
+        totalDurationDisplay!.textContent = totalDuration;
+        // Update the track slider as the audio plays
+        this.sliderValue = (this.$player.currentTime / this.$player.duration) * 100;
+      });
+
+      // Handle track ending and play the next track
+      // this.$player.addEventListener("ended", () => {
+      //   if (this.currentTrack < this.tracksListHistory.length - 1) {
+      //     this.currentTrack++;
+      //   } else {
+      //     this.currentTrack = 0;
+      //   }
+      //   playTrack(this.currentTrack);
+      // });
+
+
+      // Function to play a specific track
+      const playTrack = (trackIndex: number) => {
+        this.$player.play();
+        // this.isPlayerActive.set(true);
+        this.setUpAudio(trackIndex)
+
+      }
+      // Update the audio time displays
+
+
+      // this.setUpAudio(this.track);
+    }
+
+    this.track$.pipe(
+      // takeUntil(this.destroyed$),
+      filter(track => !!track)
+    ).subscribe(track => {
+      this.track = track;
+      this.setUpAudio(track);
+      togglePlayPause();
     })
 
-    this.tracksListHistory$.subscribe((tracks: any[]) => {
-      this.currentTrack = tracks.length - 1;
-      this.tracksListHistory =  tracks;
-    })
+
+
   }
 
 
 
   get $player(): HTMLAudioElement {
-    return this.playerRef.nativeElement;
+    return this.playerRef?.nativeElement;
   }
 
   get $volume(): HTMLElement {
     return this.volumeRef.nativeElement;
   }
 
+
   sliderValue = 0;
   volumeValue = 50;
   prevValue = 50;
-  isPlaying = false;
+  // isPlayerActive = this.tracksService.isPlayerActive;
   currentTrack = 0;
   audioPosition = 0;
   isMuted = false;
 
 
-  setUpAudio(trackIndex: number)  {
-    const track = this.tracksListHistory[trackIndex];
-    if (track) {
+  setUpAudio(track: any)  {
+    // const track = this.tracksListHistory[trackIndex];
+    if (track && this.$player) {
       const currentTimeDisplay = document.getElementById("current-time");
       const totalDurationDisplay = document.getElementById("total-duration");
-      this.$player.src = this.tracksListHistory[this.currentTrack].preview_url;
+      this.$player.src = track.preview;
 
-      this.$player.load();
+      // this.$player.load();
       const currentTime = this.formatTime(this.$player.currentTime);
       const totalDuration = this.formatTime(this.$player.duration);
       currentTimeDisplay!.textContent = currentTime;
@@ -84,94 +182,13 @@ export class CustomAudioPlayerComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit() {
 
-    const playPauseButton = document.getElementById("play-pause");
-    const prevButton = document.getElementById("prev-button");
-    const nextButton = document.getElementById("next-button");
-    const currentTimeDisplay = document.getElementById("current-time");
     const totalDurationDisplay = document.getElementById("total-duration");
 
-      this.$player.addEventListener('loadedmetadata',  () => {
-          totalDurationDisplay!.textContent = this.formatTime(this.$player.duration);
-        })
-      // Function to toggle between Play and Pause
-      const togglePlayPause = () => {
-        if (!this.isPlaying) {
-          if (this.audioPosition === 0) {
-            // Start from the beginning of the track
-            this.$player!.src = this.track.getValue();
-          }
-          this.$player.load();
-          this.$player.currentTime = this.audioPosition; // Set the audio position
-          this.$player
-            .play()
-            .then(() => {
-              playPauseButton!.innerHTML ="<i class='fa-solid fa-pause absolute top-1/2 left-1/2 translate-y-[-50%] translate-x-[-50%]'></i>";
-              this.isPlaying = true;
-            })
-            .catch((error: { message: string; }) => {
-            });
-        } else {
-          this.audioPosition = this.$player.currentTime; // Store the current audio position
-          this.$player.pause();
-          playPauseButton!.innerHTML = "<i class=\"fa-solid fa-play absolute top-1/2 left-[53%] translate-y-[-50%] translate-x-[-50%]\"></i>";
-          this.isPlaying = false;
-        }
-      }
-
-      playPauseButton!.addEventListener("click", togglePlayPause);
-
-      // Function to play the next track
-      nextButton!.addEventListener("click",  () => {
-        if (this.currentTrack < this.tracksListHistory.length - 1) {
-          this.currentTrack++;
-        } else {
-          this.currentTrack = 0;
-        }
-        playTrack(this.currentTrack);
-      });
+    this.$player.addEventListener('loadedmetadata', () => {
+      totalDurationDisplay!.textContent = this.formatTime(this.$player.duration);
+    })
 
 
-      // Function to play the previous track
-      prevButton!.addEventListener("click",  () => {
-        if (this.currentTrack > 0) {
-          this.currentTrack--;
-        } else {
-          this.currentTrack = this.tracksListHistory.length - 1;
-        }
-        playTrack(this.currentTrack);
-      });
-
-    this.$player.addEventListener("timeupdate",  () => {
-      const currentTime = this.formatTime(this.$player.currentTime);
-      const totalDuration = this.formatTime(this.$player.duration);
-      currentTimeDisplay!.textContent = currentTime;
-      totalDurationDisplay!.textContent = totalDuration;
-      // Update the track slider as the audio plays
-      this.sliderValue = (this.$player.currentTime / this.$player.duration) * 100;;
-    });
-
-    // Handle track ending and play the next track
-    this.$player.addEventListener("ended",  () => {
-      if (this.currentTrack < this.tracksListHistory.length - 1) {
-        this.currentTrack++;
-      } else {
-        this.currentTrack = 0;
-      }
-      playTrack(this.currentTrack);
-    });
-
-
-      // Function to play a specific track
-      const playTrack = (trackIndex: number) => {
-        this.$player.play();
-        this.isPlaying = true;
-        this.setUpAudio(trackIndex)
-
-      }
-      // Update the audio time displays
-
-
-    this.setUpAudio(this.currentTrack);
   }
 
   onSliderChange() {
@@ -206,6 +223,16 @@ export class CustomAudioPlayerComponent implements AfterViewInit, OnInit {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  }
+
+
+  onPlayPauseClick() {
+    this.tracksService.audioPlayPauseToggleClicked.next(true);
+    this.tracksService.isPlayerActive.set(!this.tracksService.isPlayerActive());
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next(true);
   }
 
 }

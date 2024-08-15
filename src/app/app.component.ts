@@ -21,7 +21,7 @@ import {  BehaviorSubject, concatMap, filter, tap } from 'rxjs';
 })
 export class AppComponent implements OnInit {
   private tracksService = inject(TracksService);
-  selectedTrack = new BehaviorSubject<any>({});
+  selectedTrack$ = this.tracksService.trackSelected$;
   fade: boolean = false;
   isTransparent = true;
   currentPosition = window.pageYOffset;
@@ -43,16 +43,15 @@ export class AppComponent implements OnInit {
     this.isTransparent = this.currentPosition <= 10;
   }
   ngOnInit(): void {
-    this.tracksService.selectedTrack.pipe(
+    this.tracksService.selectedTrackId.pipe(
       filter(trackId => !!trackId),
       concatMap((trackId: string) => this.tracksService.getTrack(trackId)),
       tap((track: any) => {
-        const newTrack = track.tracks.items[0].preview_url;
-        const tracksHistory = this.tracksService.tracksHistory.getValue();
-        const newHistoryItem = {preview_url: newTrack, index: tracksHistory.length + 1, timestamp: new Date()  };
-        this.tracksService.tracksHistory.next([...tracksHistory, newHistoryItem]);
-        this.selectedTrack.next(newTrack);
-
+        // const tracksHistory = this.tracksService.tracksHistory.getValue();
+        // const newHistoryItem = {preview: track.preview, index: tracksHistory.length + 1, timestamp: new Date()  };
+        // this.tracksService.tracksHistory.next([...tracksHistory, newHistoryItem]);
+        this.tracksService.trackSelected$.next(track);
+        this.tracksService.trackSelected.set(track);
       })
     ).subscribe()
   }
