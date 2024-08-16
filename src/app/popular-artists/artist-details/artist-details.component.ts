@@ -18,18 +18,19 @@ export class ArtistDetailsComponent implements OnInit {
   artist = history.state.item;
   tracks = signal<any>(null);
   isPlayerActiveSignal = this.tracksService.isPlayerActive;
+  activeTrackOrderId = this.tracksService.selectedTrackOrderId;
   constructor(private route: ActivatedRoute, private artistService: ArtistsService, private tracksService: TracksService) {
   }
   ngOnInit() {
     this.route.params.pipe(
       switchMap(params => this.artistService.getArtistTracks(params['id']))
-      ).subscribe(artist => {
-        this.tracks.set(artist);
+      ).subscribe(tracks => {
+        this.tracks.set(tracks);
       });
   }
 
-  onTrackSelect(id: string) {
-    if(id === this.tracksService.trackSelected().id) {
+  onTrackSelect(id: number) {
+    if(id === this.tracksService.trackSelected()?.id) {
       this.tracksService.audioPlayPauseToggleClicked$.next(true);
       this.isPlayerActiveSignal.set(!this.tracksService.isPlayerActive());
     } else {

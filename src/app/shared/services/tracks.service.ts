@@ -1,7 +1,8 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { BehaviorSubject, shareReplay } from 'rxjs';
+import { BehaviorSubject, Observable, shareReplay } from 'rxjs';
+import { Track } from '../../apis/track.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +10,10 @@ import { BehaviorSubject, shareReplay } from 'rxjs';
 export class TracksService {
 
   // public tracksHistory = new BehaviorSubject<{ preview: string, index: number }[]>([]);
-  public selectedTrackId = new BehaviorSubject<string>('');
-  public trackSelected = signal({preview: '', id: ''})
-  public trackSelected$ = new BehaviorSubject<any>({ preview: ''});
+  public selectedTrackId = new BehaviorSubject<number | null>(null);
+  public trackSelected = signal<Track | null>(null)
+  public selectedTrackOrderId = signal<number>(-1);
+  public trackSelected$ = new BehaviorSubject<Track | null>(null);
   public audioPlayPauseToggleClicked$ = new BehaviorSubject<boolean>(false);
   public isPlayerActive = signal(false);
 
@@ -19,8 +21,8 @@ export class TracksService {
 
   constructor(private http: HttpClient) { }
 
-  getTrack(id: string): any {
-    return this.http.get(`${environment.baseUrl}/track/${id}`).pipe(
+  getTrack(id: string): Observable<Track> {
+    return this.http.get<Track>(`${environment.baseUrl}/track/${id}`).pipe(
       shareReplay(1)
     )
   }

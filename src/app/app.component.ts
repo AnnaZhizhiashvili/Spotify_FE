@@ -10,7 +10,8 @@ import { FormControl } from '@angular/forms';
 import { SearchService } from './shared/services/search.service';
 import { CustomAudioPlayerComponent } from './shared/components/custom-audio-player/custom-audio-player.component';
 import { TracksService } from './shared/services/tracks.service';
-import {  BehaviorSubject, concatMap, filter, tap } from 'rxjs';
+import { filter, tap } from 'rxjs';
+import { ArtistsService } from './popular-artists/artists.service';
 
 @Component({
   selector: 'app-root',
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit {
   currentPosition = window.pageYOffset;
   searchFormControl = new FormControl();
 
-  constructor(private locationService: LocationService, private searchService: SearchService) {
+  constructor(private locationService: LocationService, private searchService: SearchService, private artistsService: ArtistsService) {
 
   }
   @HostListener('window:scroll', ['$event'])
@@ -47,16 +48,28 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.tracksService.selectedTrackId.pipe(
       filter(trackId => !!trackId),
-      concatMap((trackId: string) => this.tracksService.getTrack(trackId)),
-      tap((track: any) => {
+      tap((trackId) => {
         // const tracksHistory = this.tracksService.tracksHistory.getValue();
         // const newHistoryItem = {preview: track.preview, index: tracksHistory.length + 1, timestamp: new Date()  };
         // this.tracksService.tracksHistory.next([...tracksHistory, newHistoryItem]);
-        this.tracksService.trackSelected$.next(track);
-        this.tracksService.trackSelected.set(track);
+        const track = this.artistsService.artistsTracksSignal().find((track: any) => track.id === trackId)
+        if (track) {
+          this.tracksService.trackSelected$.next(track);
+          this.tracksService.trackSelected.set(track);
+          this.tracksService.selectedTrackOrderId.set(track.orderId);
+        }
       })
     ).subscribe()
 
+  }
+
+  onNextButton() {
+    const nextTrack = this.artistsService.artistsTracksSignal().find(track => track.orderId === this.tracksService.selectedTrackOrderId()! + 1);
+    if(nextTrack) {
+      this.tracksService.trackSelected$.next(nextTrack);
+      this.tracksService.trackSelected.set(nextTrack);
+      this.tracksService.selectedTrackOrderId.set(nextTrack.orderId);
+    }
   }
 
   onPlayPauseClick() {

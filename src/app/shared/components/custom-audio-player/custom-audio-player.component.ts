@@ -22,13 +22,14 @@ import { AsyncPipe, NgIf } from '@angular/common';
   templateUrl: './custom-audio-player.component.html',
   styleUrl: './custom-audio-player.component.scss'
 })
-export class CustomAudioPlayerComponent implements AfterViewInit, OnInit, OnDestroy {
+export class CustomAudioPlayerComponent implements AfterViewInit, OnDestroy {
   @ViewChild('playerRef') playerRef: ElementRef<HTMLAudioElement>;
   @ViewChild('volumeRef') volumeRef: ElementRef<HTMLAudioElement>;
   @Input() track$: BehaviorSubject<any>
   @Input() audioPlayPauseToggleClicked$: BehaviorSubject<any>
   @Input() isPlayerActiveSignal: Signal<boolean>;
   @Output() playPauseToggleClicked = new EventEmitter<boolean>();
+  @Output() nextButtonClicked = new EventEmitter<boolean>();
   track = { preview: '' };
   destroyed$ = new BehaviorSubject(false);
   // tracksListHistory$ = this.tracksService.tracksHistory;
@@ -37,11 +38,10 @@ export class CustomAudioPlayerComponent implements AfterViewInit, OnInit, OnDest
   constructor() {
 
   }
-  ngOnInit() {
+  ngAfterViewInit() {
 
     const playPauseButton = document.getElementById("play-pause");
     const prevButton = document.getElementById("prev-button");
-    const nextButton = document.getElementById("next-button");
     const currentTimeDisplay = document.getElementById("current-time");
     const totalDurationDisplay = document.getElementById("total-duration");
 
@@ -50,17 +50,18 @@ export class CustomAudioPlayerComponent implements AfterViewInit, OnInit, OnDest
         shareReplay(1),
         filter(track => track!== null && track!== undefined && Object.keys(track).length > 0),
         tap((track) => {
-          this.$player.src = track.preview;
-          this.audioPosition = 0;
-          this.$player.currentTime = this.audioPosition;
-          setTimeout( () => {
-            this.$player
-              .play()
-              .then()
-          }, 1);
-          playPauseButton!.innerHTML = "<i class='fa-solid fa-pause absolute top-1/2 left-1/2 translate-y-[-50%] translate-x-[-50%]'></i>";
-
-
+          this.setUpAudio(track)
+          if (this.$player ) {
+            this.$player.src = track.preview;
+            this.audioPosition = 0;
+            this.$player.currentTime = this.audioPosition;
+            setTimeout( () => {
+              this.$player
+                .play()
+                .then()
+            }, 1);
+            playPauseButton!.innerHTML = "<i class='fa-solid fa-pause absolute top-1/2 left-1/2 translate-y-[-50%] translate-x-[-50%]'></i>";
+          }
         })
       ).subscribe();
 
@@ -83,14 +84,6 @@ export class CustomAudioPlayerComponent implements AfterViewInit, OnInit, OnDest
       ).subscribe()
 
       // Function to play the next track
-      // nextButton!.addEventListener("click", () => {
-      //   if (this.currentTrack < this.tracksListHistory.length - 1) {
-      //     this.currentTrack++;
-      //   } else {
-      //     this.currentTrack = 0;
-      //   }
-      //   playTrack(this.currentTrack);
-      // });
 
 
       // Function to play the previous track
@@ -177,6 +170,7 @@ export class CustomAudioPlayerComponent implements AfterViewInit, OnInit, OnDest
       const currentTimeDisplay = document.getElementById("current-time");
       const totalDurationDisplay = document.getElementById("total-duration");
       this.$player.src = track.preview;
+      this.$player.load();
       const currentTime = this.formatTime(this.$player.currentTime);
       const totalDuration = this.formatTime(this.$player.duration);
       currentTimeDisplay!.textContent = currentTime;
@@ -191,17 +185,6 @@ export class CustomAudioPlayerComponent implements AfterViewInit, OnInit, OnDest
 
 
 
-
-  ngAfterViewInit() {
-    //
-    // const totalDurationDisplay = document.getElementById("total-duration");
-    //
-    // this.$player.addEventListener('loadedmetadata', () => {
-    //   totalDurationDisplay!.textContent = this.formatTime(this.$player.duration);
-    // })
-
-
-  }
 
   onSliderChange() {
     this.$player!.currentTime = (this.sliderValue / 100) * this.$player!.duration;
@@ -236,7 +219,9 @@ export class CustomAudioPlayerComponent implements AfterViewInit, OnInit, OnDest
     const remainingSeconds = Math.floor(seconds % 60);
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   }
-
+  onNextButtonClick() {
+      this.nextButtonClicked.emit(true);
+  }
 
   onPlayPauseClick() {
     this.playPauseToggleClicked.next(true)

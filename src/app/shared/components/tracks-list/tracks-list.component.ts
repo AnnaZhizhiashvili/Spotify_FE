@@ -32,8 +32,18 @@ import { TracksService } from '../../services/tracks.service';
 export class TracksListComponent implements OnInit {
   @Input() tracks = signal([]);
   @Input() isPlayerActiveSignal: Signal<boolean>;
-  customizedTracks = computed(() => this.tracks()?.map((track: any) => ({...track, isActive: false })))
+  @Input() activeTrackOrderId: Signal<number>;
+  customizedTracks = computed(() => this.tracks()?.map((track: any) => ({...track, isActive: false})));
   @Output() trackSelected = new EventEmitter();
+  @Output() trackSelectedOrderId = new EventEmitter();
+
+  constructor() {
+    effect(() => {
+      this.customizedTracks()?.forEach((track: { orderId: number; isActive: boolean; }) => {
+        track.isActive = track.orderId === this.activeTrackOrderId();
+      });
+    });
+  }
 
   ngOnInit() {
 
@@ -41,9 +51,9 @@ export class TracksListComponent implements OnInit {
 
   selectTrack(id: string) {
       this.trackSelected.emit(id);
-      this.customizedTracks().forEach((track: { id: string; isActive: boolean; }) => {
-        track.isActive = track.id === id;
-    });
+    //   this.customizedTracks().forEach((track: { id: string; isActive: boolean; }) => {
+    //     track.isActive = track.id === id;
+    // });
 
   }
 
