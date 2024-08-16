@@ -30,7 +30,7 @@ export class ArtistDetailsComponent implements OnInit {
 
   onTrackSelect(id: string) {
     if(id === this.tracksService.trackSelected().id) {
-      this.tracksService.audioPlayPauseToggleClicked.next(true);
+      this.tracksService.audioPlayPauseToggleClicked$.next(true);
       this.isPlayerActiveSignal.set(!this.tracksService.isPlayerActive());
     } else {
       this.tracksService.selectedTrackId.next(id);

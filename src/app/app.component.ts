@@ -22,6 +22,8 @@ import {  BehaviorSubject, concatMap, filter, tap } from 'rxjs';
 export class AppComponent implements OnInit {
   private tracksService = inject(TracksService);
   selectedTrack$ = this.tracksService.trackSelected$;
+  audioPlayPauseToggleClicked$ = this.tracksService.audioPlayPauseToggleClicked$;
+  isPlayerActiveSignal = this.tracksService.isPlayerActive;
   fade: boolean = false;
   isTransparent = true;
   currentPosition = window.pageYOffset;
@@ -54,6 +56,12 @@ export class AppComponent implements OnInit {
         this.tracksService.trackSelected.set(track);
       })
     ).subscribe()
+
+  }
+
+  onPlayPauseClick() {
+    this.tracksService.audioPlayPauseToggleClicked$.next(true);
+    this.tracksService.isPlayerActive.set(!this.tracksService.isPlayerActive());
   }
   goBack() {
     this.locationService.goBack();

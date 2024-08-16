@@ -12,7 +12,7 @@ export class TracksService {
   public selectedTrackId = new BehaviorSubject<string>('');
   public trackSelected = signal({preview: '', id: ''})
   public trackSelected$ = new BehaviorSubject<any>({ preview: ''});
-  public audioPlayPauseToggleClicked = new BehaviorSubject<boolean>(false);
+  public audioPlayPauseToggleClicked$ = new BehaviorSubject<boolean>(false);
   public isPlayerActive = signal(false);
 
 
